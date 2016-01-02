@@ -7,19 +7,47 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://charlesfranzen.com/</loc>
-  <lastmod>2015-12-26T03:31:00Z</lastmod>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/2015/</loc>
   <lastmod>2015-12-26T03:31:00Z</lastmod>
  </url>
  <url>
+  <loc>http://charlesfranzen.com/2016/</loc>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2015-12-26T04:12:00Z</lastmod>
+  <lastmod>2016-01-02T05:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
-  <lastmod>2015-12-26T03:31:00Z</lastmod>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/classification/</loc>
+  <lastmod>2016-01-02T03:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/machine-learning/</loc>
+  <lastmod>2016-01-02T03:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/python-machine-learning-classification/</loc>
+  <lastmod>2016-01-02T03:14:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/python/</loc>
+  <lastmod>2016-01-02T03:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/regression/</loc>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/statistics/</loc>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/galleries/</loc>
@@ -32,6 +60,10 @@
  <url>
   <loc>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</loc>
   <lastmod>2015-12-26T03:31:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</loc>
+  <lastmod>2016-01-02T04:33:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/posts/simple-voting-classifier/</loc>

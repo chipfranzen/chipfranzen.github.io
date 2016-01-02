@@ -1,46 +1,109 @@
 <!DOCTYPE html>
-<html prefix="
-og: http://ogp.me/ns#
-article: http://ogp.me/ns/article#
-" lang="en">
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
+<base href="http://charlesfranzen.com/">
 <meta name="description" content="A blog about data, python, and whatever else crosses my mind.">
-<meta name="viewport" content="width=device-width">
-<title>Charles Franzen | Charles Franzen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charles Franzen</title>
 <link href="assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="rss.xml">
 <link rel="canonical" href="http://charlesfranzen.com/">
-<!--[if lt IE 9]><script src="/assets/js/html5.js"></script><![endif]--><style>
-    div.input_prompt {
-      display: none;
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
     }
-    </style>
+});
+</script>
 </head>
 <body>
-    <section class="social"><ul>
-<li><a href="#" title="Home"><i class="icon-home"></i></a></li>
-            <li><a href="archive.html" title="Archives"><i class="icon-folder-open-alt"></i></a></li>
-            <li><a href="categories/index.html" title="Tags"><i class="icon-tags"></i></a></li>
-            <li><a href="rss.xml" title="RSS"><i class="icon-rss"></i></a></li>
-            <li><a href="https://getnikola.com" title="About me"><i class="icon-user"></i></a></li>
-            <li><a href="https://twitter.com/getnikola" title="My Twitter"><i class="icon-twitter"></i></a></li>
-            <li><a href="https://github.com/getnikola" title="My Github"><i class="icon-github"></i></a></li>
+<p>
+# 
+        <!--[if lt IE 9]><script src="assets/js/html5.js"></script><![endif]-->
 
-        </ul></section><section class="page-content"><div class="content" rel="main">
-        <div class="post">
-            <h1 class="title"><a href="posts/simple-voting-classifier/">Simple Voting Classifier</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-26T11:42:53+08:00">2015-12-26 11:42</time>
-</div>
-                <div class="stats">
-                    
-                </div>
+    
+
+
+    
+
+        <link rel="prefetch" href="posts/simple-linear-regression-in-python/" type="text/html"></p>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://charlesfranzen.com/">
+
+                <span id="blog-title">Charles Franzen</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="#">Home</a>
+                </li>
+<li>
+<a href="archive.html">Archives</a>
+                </li>
+<li>
+<a href="categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="rss.xml">RSS</a>
+                </li>
+<li>
+<a href="https://getnikola.com">About me</a>
+                </li>
+<li>
+<a href="https://www.linkedin.com/in/charles-franz%C3%A9n-40484a24">My Linked-In</a>
+                </li>
+<li>
+<a href="https://github.com/chipfranzen">My Github</a>
+
                 
-            </div>
-            <div class="body">
-                <div tabindex="-1" id="notebook" class="border-box-sizing">
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right"></ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+
+<div class="postindex">
+    <article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/simple-linear-regression-in-python/" class="u-url">Simple Linear Regression in Python</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="posts/simple-linear-regression-in-python/" rel="bookmark"><time class="published dt-published" datetime="2016-01-02T11:28:52+08:00" title="2016-01-02 11:28">2016-01-02 11:28</time></a></p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
 <div class="cell border-box-sizing text_cell rendered">
@@ -48,7 +111,33 @@ article: http://ogp.me/ns/article#
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Simple-Voting-Classifier">Simple Voting Classifier<a class="anchor-link" href="posts/simple-voting-classifier/#Simple-Voting-Classifier">¶</a>
+<h2 id="Simple-Linear-Regression--Closed-Form">Simple Linear Regression- Closed Form<a class="anchor-link" href="posts/simple-linear-regression-in-python/#Simple-Linear-Regression--Closed-Form">¶</a>
+</h2>
+<p>A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common methods used is ordinary least squares (OLS), which minimizes the square of the residuals of a line plotted against the data points.</p>
+<p class="more"><a href="posts/simple-linear-regression-in-python/">Read more…</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/simple-voting-classifier/" class="u-url">Simple Voting Classifier</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="posts/simple-voting-classifier/" rel="bookmark"><time class="published dt-published" datetime="2015-12-26T11:42:53+08:00" title="2015-12-26 11:42">2015-12-26 11:42</time></a></p>
+        </div>
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simple-Voting-Classifier-in-Python">Simple Voting Classifier in Python<a class="anchor-link" href="posts/simple-voting-classifier/#Simple-Voting-Classifier-in-Python">¶</a>
 </h2>
 <p>Libraries like Scikit-learn are sometimes equiped with a voting classifier that will allow you to aggregate your machine learning models through voting. If you have a bunch of models already built, though, voting classifiers can take a very long time to build, as each individual model has to be built again by the new classifier.</p>
 
@@ -66,21 +155,16 @@ article: http://ogp.me/ns/article#
 </div>
 </div>
 </div>
-            </div>
+    </div>
+    </article><article class="h-entry post-text"><header><h1 class="p-name entry-title"><a href="posts/machine-learning-classifying-us-visa-applications/" class="u-url">Machine Learning- Classifying US Visa Applications</a></h1>
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="posts/machine-learning-classifying-us-visa-applications/" rel="bookmark"><time class="published dt-published" datetime="2015-12-25T21:03:46+08:00" title="2015-12-25 21:03">2015-12-25 21:03</time></a></p>
         </div>
-        <div class="post">
-            <h1 class="title"><a href="posts/machine-learning-classifying-us-visa-applications/">Machine Learning- Classifying US Visa Applications</a></h1>
-            <div class="meta">
-                <div class="authordate">
-                    <time class="timeago" datetime="2015-12-25T21:03:46+08:00">2015-12-25 21:03</time>
-</div>
-                <div class="stats">
-                    
-                </div>
-                
-            </div>
-            <div class="body">
-                <div tabindex="-1" id="notebook" class="border-box-sizing">
+    </header><div class="p-summary entry-summary">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
 <div class="cell border-box-sizing text_cell rendered">
@@ -120,25 +204,38 @@ article: http://ogp.me/ns/article#
 </div>
 </div>
 </div>
-            </div>
-        </div>
-    
-    
-                    <footer id="footer"><p>Contents © 2015         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+    </div>
+    </article>
+</div>
+
+
+
+
+
+            <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+            </script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
 <img alt="Creative Commons License
 style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
 <br>This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Franzen</span> is licensed under a
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
 Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
-</a>.</p>
+</a>.
             
         </footer>
 </div>
-    </section><script src="assets/js/all-nocdn.js" type="text/javascript"></script><script type="text/javascript">
-            $(function(){
-                $('.timeago').timeago();
-            });
-        </script>
+</div>
+
+
+            <script src="assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
 </body>
 </html>

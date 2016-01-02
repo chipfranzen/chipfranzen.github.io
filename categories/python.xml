@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Charles Franzen (python)</title><link>http://charlesfranzen.com/</link><description></description><atom:link rel="self" href="http://charlesfranzen.com/categories/python.xml" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Sat, 02 Jan 2016 05:20:52 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Simple Linear Regression in Python</title><link>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Simple-Linear-Regression--Closed-Form"&gt;Simple Linear Regression- Closed Form&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/#Simple-Linear-Regression--Closed-Form"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common methods used is ordinary least squares (OLS), which minimizes the square of the residuals of a line plotted against the data points.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>regression</category><category>statistics</category><guid>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</guid><pubDate>Sat, 02 Jan 2016 03:28:52 GMT</pubDate></item><item><title>Simple Voting Classifier</title><link>http://charlesfranzen.com/posts/simple-voting-classifier/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Simple-Voting-Classifier-in-Python"&gt;Simple Voting Classifier in Python&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-voting-classifier/#Simple-Voting-Classifier-in-Python"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Libraries like Scikit-learn are sometimes equiped with a voting classifier that will allow you to aggregate your machine learning models through voting. If you have a bunch of models already built, though, voting classifiers can take a very long time to build, as each individual model has to be built again by the new classifier.&lt;/p&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>http://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item></channel></rss>

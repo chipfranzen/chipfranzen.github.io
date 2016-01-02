@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple Linear Regression in Python | Charles Franzen</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+</head>
+<body>
+<p>
+# 
+        <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]-->
+
+    
+
+
+    
+
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../simple-voting-classifier/" title="Simple Voting Classifier" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Simple Linear Regression in Python"><meta property="og:url" content="http://charlesfranzen.com/posts/simple-linear-regression-in-python/"><meta property="og:description" content="Simple Linear Regression- Closed Form¶A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common me"><meta property="og:type" content="article"><meta property="article:published_time" content="2016-01-02T11:28:52+08:00"><meta property="article:tag" content="python"><meta property="article:tag" content="regression"><meta property="article:tag" content="statistics"></p>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://charlesfranzen.com/">
+
+                <span id="blog-title">Charles Franzen</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../index.html">Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archives</a>
+                </li>
+<li>
+<a href="../../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS</a>
+                </li>
+<li>
+<a href="https://getnikola.com">About me</a>
+                </li>
+<li>
+<a href="https://www.linkedin.com/in/charles-franz%C3%A9n-40484a24">My Linked-In</a>
+                </li>
+<li>
+<a href="https://github.com/chipfranzen">My Github</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Simple Linear Regression in Python</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2016-01-02T11:28:52+08:00" itemprop="datePublished" title="2016-01-02 11:28">2016-01-02 11:28</time></a></p>
+            
+        <p class="sourceline"><a href="index.ipynb" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Simple-Linear-Regression--Closed-Form">Simple Linear Regression- Closed Form<a class="anchor-link" href="#Simple-Linear-Regression--Closed-Form">¶</a>
+</h2>
+<p>A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common methods used is ordinary least squares (OLS), which minimizes the square of the residuals of a line plotted against the data points.</p>
+<!-- TEASER_END -->
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The line of a linear regression is given by the formula, with intercept $$w_{0}$$ and slope $$w_{1}$$:</p>
+$$y=w_{0}+w_{1}x$$<p>In the case of simple linear regression, these coefficients can be measured by taking the partial derivatives of the cost function with respect to each coefficien, setting them to zero, doing a little algebra to separate the terms, and calculating each coefficient. The full derivation can be found at <a href="https://en.wikipedia.org/wiki/Simple_linear_regression#Derivation_of_simple_regression_estimators">wikipedia</a>.</p>
+<p>The bottom line is that the closed form solution ends with these two equations:</p>
+$$\hat {w}_{0}=\dfrac {\sum ^{N}_{i=1}y_{i}}{N}-\hat {w}_{1}\dfrac {\sum ^{N}_{i=1}x_{i}}{N}$$$$\hat {w}_{1}=\dfrac {\sum ^{N}_{i=1}y_{i}x_{i}-\dfrac {\sum ^{N}_{i=1}y_{i}\sum ^{N}_{i=1}x_{i}}{N}}{\sum ^{N}_{i=1}x^{2}_{i}-\dfrac {\sum ^{N}_{i=1}x_{i}\sum ^{N}_{i=1}x_{i}}{N}}$$<p>From this point, it's simple to write a python function that calculates the slope and intercept of a simple linear regression.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">simple_linear_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="sd">'''</span>
+<span class="sd">    Returns slope and intercept for a simple regression line</span>
+<span class="sd">    </span>
+<span class="sd">    inputs- Works best with numpy arrays, though other similar data structures will work fine.</span>
+<span class="sd">        X - input data</span>
+<span class="sd">        y - output data</span>
+<span class="sd">        </span>
+<span class="sd">    outputs - floats</span>
+<span class="sd">    '''</span>
+    <span class="c"># initial sums</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+    <span class="n">sum_x</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">sum_y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">sum_xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">sum_xx</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    
+    <span class="c"># formula for w0</span>
+    <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">sum_xy</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_x</span><span class="o">*</span><span class="n">sum_y</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">sum_xx</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_x</span><span class="o">*</span><span class="n">sum_x</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+    
+    <span class="c"># formula for w1</span>
+    <span class="n">intercept</span> <span class="o">=</span> <span class="n">sum_y</span><span class="o">/</span><span class="n">n</span> <span class="o">-</span> <span class="n">slope</span><span class="o">*</span><span class="p">(</span><span class="n">sum_x</span><span class="o">/</span><span class="n">n</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="p">(</span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now let's try it out on some data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [84]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">199</span><span class="p">)</span>
+
+<span class="c"># generating some test points</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A convenient way to check the fit is to make predictions across the range of the input data, then plot them against the original data.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [85]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span> <span class="o">=</span> <span class="n">simple_linear_regression</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="s">'Intercept: </span><span class="si">%.2f</span><span class="s">, Slope: </span><span class="si">%.2f</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Intercept: 3.60, Slope: 0.27
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [86]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">reg_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="p">((</span><span class="n">slope</span><span class="o">*</span><span class="n">X</span><span class="p">)</span> <span class="o">+</span> <span class="n">intercept</span><span class="p">)</span>
+
+<span class="n">line_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">/</span><span class="mf">10.</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)])</span>
+<span class="n">line_y</span> <span class="o">=</span> <span class="n">reg_predictions</span><span class="p">(</span><span class="n">line_x</span><span class="p">,</span> <span class="n">intercept</span><span class="p">,</span> <span class="n">slope</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="n">line_x</span><span class="p">,</span> <span class="n">line_y</span><span class="p">,</span> <span class="s">'-'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[86]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;matplotlib.lines.Line2D at 0x107ed97d0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x107ed9a50&gt;]</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0AF6l4IAAAAABJRU5ErkJggg==">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The fit isn't very good, as expected for random data, but at least we can see the function in action.</p>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/python/" rel="tag">python</a></li>
+            <li><a class="tag p-category" href="../../categories/regression/" rel="tag">regression</a></li>
+            <li><a class="tag p-category" href="../../categories/statistics/" rel="tag">statistics</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../simple-voting-classifier/" rel="prev" title="Simple Voting Classifier">Previous post</a>
+            </li>
+        </ul></nav></aside><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
+            </script></article>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License
+style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+<br>This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Franzen</span> is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
