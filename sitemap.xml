@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://charlesfranzen.com/</loc>
-  <lastmod>2016-01-02T04:33:00Z</lastmod>
+  <lastmod>2016-01-02T06:18:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/2015/</loc>
@@ -19,11 +19,11 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2016-01-02T05:22:00Z</lastmod>
+  <lastmod>2016-01-02T14:50:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
-  <lastmod>2016-01-02T04:33:00Z</lastmod>
+  <lastmod>2016-01-02T05:24:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/classification/</loc>
@@ -32,10 +32,6 @@
  <url>
   <loc>http://charlesfranzen.com/categories/machine-learning/</loc>
   <lastmod>2016-01-02T03:19:00Z</lastmod>
- </url>
- <url>
-  <loc>http://charlesfranzen.com/categories/python-machine-learning-classification/</loc>
-  <lastmod>2016-01-02T03:14:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/python/</loc>
@@ -68,5 +64,9 @@
  <url>
   <loc>http://charlesfranzen.com/posts/simple-voting-classifier/</loc>
   <lastmod>2015-12-26T04:12:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/stories/about-me/</loc>
+  <lastmod>2016-01-02T06:18:00Z</lastmod>
  </url>
 </urlset>
