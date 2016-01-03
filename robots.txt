@@ -1,4 +1,4 @@
-Sitemap: https://charlesfranzen.com/sitemapindex.xml
+Sitemap: http://charlesfranzen.com/sitemapindex.xml
 
 User-Agent: *
 Host: charlesfranzen.com
