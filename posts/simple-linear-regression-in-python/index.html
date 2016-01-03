@@ -138,10 +138,11 @@ MathJax.Hub.Config({
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The line of a linear regression is given by the formula, with intercept $$w_{0}$$ and slope $$w_{1}$$:</p>
+<p>The line of a linear regression is given by the formula, with intercept $$w_{0}$$ and slope $$w_{1}$$</p>
 $$y=w_{0}+w_{1}x$$<p>In the case of simple linear regression, these coefficients can be measured by taking the partial derivatives of the cost function with respect to each coefficien, setting them to zero, doing a little algebra to separate the terms, and calculating each coefficient. The full derivation can be found at <a href="https://en.wikipedia.org/wiki/Simple_linear_regression#Derivation_of_simple_regression_estimators">wikipedia</a>.</p>
 <p>The bottom line is that the closed form solution ends with these two equations:</p>
-$$\hat {w}_{0}=\dfrac {\sum ^{N}_{i=1}y_{i}}{N}-\hat {w}_{1}\dfrac {\sum ^{N}_{i=1}x_{i}}{N}$$$$\hat {w}_{1}=\dfrac {\sum ^{N}_{i=1}y_{i}x_{i}-\dfrac {\sum ^{N}_{i=1}y_{i}\sum ^{N}_{i=1}x_{i}}{N}}{\sum ^{N}_{i=1}x^{2}_{i}-\dfrac {\sum ^{N}_{i=1}x_{i}\sum ^{N}_{i=1}x_{i}}{N}}$$<p>From this point, it's simple to write a python function that calculates the slope and intercept of a simple linear regression.</p>
+$$\hat {w}_{0}=\dfrac {\sum ^{N}_{i=1}y_{i}}{N}-\hat {w}_{1}\dfrac {\sum ^{N}_{i=1}x_{i}}{N}$$<hr>
+$$\hat {w}_{1}=\dfrac {\sum ^{N}_{i=1}y_{i}x_{i}-\dfrac {\sum ^{N}_{i=1}y_{i}\sum ^{N}_{i=1}x_{i}}{N}}{\sum ^{N}_{i=1}x^{2}_{i}-\dfrac {\sum ^{N}_{i=1}x_{i}\sum ^{N}_{i=1}x_{i}}{N}}$$<p>From this point, it's simple to write a python function that calculates the slope and intercept of a simple linear regression.</p>
 
 </div>
 </div>
