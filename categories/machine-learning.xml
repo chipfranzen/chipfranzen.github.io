@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Charles Franzen (machine-learning)</title><link>http://charlesfranzen.com/</link><description></description><atom:link href="http://charlesfranzen.com/categories/machine-learning.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 03 Jan 2016 02:30:10 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Simple Voting Classifier</title><link>http://charlesfranzen.com/posts/simple-voting-classifier/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Charles Franzen (machine-learning)</title><link>https://charlesfranzen.com/</link><description></description><atom:link href="https://charlesfranzen.com/categories/machine-learning.xml" type="application/rss+xml" rel="self"></atom:link><language>en</language><lastBuildDate>Sun, 03 Jan 2016 02:48:40 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Simple Voting Classifier</title><link>https://charlesfranzen.com/posts/simple-voting-classifier/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;
@@ -7,7 +7,7 @@
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Simple-Voting-Classifier-in-Python"&gt;Simple Voting Classifier in Python&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-voting-classifier/#Simple-Voting-Classifier-in-Python"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Libraries like Scikit-learn are sometimes equiped with a voting classifier that will allow you to aggregate your machine learning models through voting. If you have a bunch of models already built, though, voting classifiers can take a very long time to build, as each individual model has to be built again by the new classifier.&lt;/p&gt;
+&lt;h2 id="Simple-Voting-Classifier-in-Python"&gt;Simple Voting Classifier in Python&lt;a class="anchor-link" href="https://charlesfranzen.com/posts/simple-voting-classifier/#Simple-Voting-Classifier-in-Python"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Libraries like Scikit-learn are sometimes equiped with a voting classifier that will allow you to aggregate your machine learning models through voting. If you have a bunch of models already built, though, voting classifiers can take a very long time to build, as each individual model has to be built again by the new classifier.&lt;/p&gt;
 
 &lt;/div&gt;
 &lt;/div&gt;
@@ -17,4 +17,4 @@
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>http://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;a href="https://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>https://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item></channel></rss>
