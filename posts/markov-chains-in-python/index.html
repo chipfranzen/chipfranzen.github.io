@@ -44,10 +44,10 @@ MathJax.Hub.Config({
 
 
 
-Markov chains are random processes wherein state-changes accur randomly according to some probablility function.
+Markov chains are random processes wherein state-changes occur according to some probablility function.
 
 
-Markov chains can be visualized as grap"><meta property="og:type" content="article"><meta property="article:published_time" content="2016-01-11T21:17:50+08:00"><meta property="article:tag" content="python"><meta property="article:tag" content="statistics"></p>
+Markov chains can be visualized as graphs, with "><meta property="og:type" content="article"><meta property="article:published_time" content="2016-01-11T21:17:50+08:00"><meta property="article:tag" content="python"><meta property="article:tag" content="statistics"></p>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 
 <!-- Menubar -->
@@ -148,11 +148,11 @@ Markov chains can be visualized as grap"><meta property="og:type" content="artic
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Markov chains are random processes wherein state-changes accur randomly according to some probablility function.</p>
+<p>Markov chains are random processes wherein state-changes occur according to some probablility function.</p>
 <!-- TEASER_END -->
 
 <p>Markov chains can be visualized as graphs, with weights along the edges representing the probability of each state change. Here's an example of a relatively simple three-state markov chain: <img src="../../images/markov_diagram.svg" alt=""></p>
-<p>An intuitive way to represent such a system is with a python dictionary, with each state as a key, and values that map each node that the original state is connected with to the probablility that it will change to that node. In the example above, the key 'B' would have a value that maps .4 to 'A' and .6 to 'C'.</p>
+<p>An intuitive way to represent such a system is with a python dictionary, with each state as a key and values that map each node that the key state is connected with to the probablility that it will change to that node. In the example above, the key 'B' would have a value that maps .4 to 'A' and .6 to 'C'.</p>
 <p>Numpy arrays provide a convenient way to map probabilities to connected nodes:</p>
 
 </div>
