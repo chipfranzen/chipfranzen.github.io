@@ -153,17 +153,18 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 
 <p>Markov chains can be visualized as graphs, with weights along the edges representing the probability of each state change. Here's an example of a relatively simple three-state markov chain: <img src="../../images/markov_diagram.svg" alt=""></p>
 <p>An intuitive way to represent such a system is with a python dictionary, with each state as a key and values that map each node that the key state is connected with to the probablility that it will change to that node. In the example above, the key 'B' would have a value that maps .4 to 'A' and .6 to 'C'.</p>
-<p>Numpy arrays provide a convenient way to map probabilities to connected nodes:</p>
+<p>Numpy arrays (alternative: lists of 2 lists) provide a convenient way to map probabilities to connected nodes:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In [115]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
 <span class="n">state_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'A'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">],</span>
                              <span class="p">[</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]),</span>
               <span class="s">'B'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">],</span>
@@ -189,14 +190,14 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
+<div class="prompt input_prompt">In [116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">Markov</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="s">''</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">check_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">print</span> <span class="s">'Current State: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">)</span>
@@ -228,7 +229,7 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+<div class="prompt input_prompt">In [117]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">diagram_a</span> <span class="o">=</span> <span class="n">Markov</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
@@ -246,7 +247,7 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Current State: 
+<pre>Current State: A
 </pre>
 </div>
 </div>
@@ -257,7 +258,7 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [31]:</div>
+<div class="prompt input_prompt">In [118]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">diagram_a</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="s">'B'</span><span class="p">)</span>
@@ -285,7 +286,7 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [32]:</div>
+<div class="prompt input_prompt">In [154]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
@@ -303,16 +304,16 @@ Markov chains can be visualized as graphs, with "><meta property="og:type" conte
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>New State: A
-New State: C
-New State: B
-New State: C
-New State: B
+<pre>New State: B
+New State: A
 New State: C
 New State: A
+New State: A
+New State: A
 New State: B
+New State: A
+New State: A
 New State: C
-New State: B
 </pre>
 </div>
 </div>
