@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<base href="http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentation: US Visa Application Analysis | Charles Franzen</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta content="#5670d4" name="theme-color">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+</head>
+<body>
+<p>
+# 
+        <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]-->
+
+    
+
+
+    
+
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../multiple-regression-in-python-gradient-descent/" title="Multiple Regression in Python- Gradient Descent" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Presentation: US Visa Application Analysis"><meta property="og:url" content="http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/"><meta property="og:description" content="I recently made a presentation on a model that I created to analyze US Work Visa Applications. Click the image below to watch the YouTube video. The companion ipython notebook can be found here."><meta property="og:type" content="article"><meta property="article:published_time" content="2016-02-07T19:20:11+08:00"><meta property="article:tag" content="machine-learning"></p>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://charlesfranzen.com/">
+
+                <span id="blog-title">Charles Franzen</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../index.html">Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archives</a>
+                </li>
+<li>
+<a href="../../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS</a>
+                </li>
+<li>
+<a href="../../stories/about-me/index.html">About me</a>
+                </li>
+<li>
+<a href="https://www.linkedin.com/in/charles-franz%C3%A9n-40484a24">My Linked-In</a>
+                </li>
+<li>
+<a href="https://github.com/chipfranzen">My Github</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.md" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Presentation: US Visa Application Analysis</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2016-02-07T19:20:11+08:00" itemprop="datePublished" title="2016-02-07 19:20">2016-02-07 19:20</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/presentation-us-visa-application-analysis.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.md" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div>
+<p>I recently made a presentation on a model that I created to analyze US Work Visa Applications. Click the image below to watch the YouTube video. The companion ipython notebook can be found <a href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/">here.</a></p>
+<p><a href="https://www.youtube.com/watch?v=VeECWp_cgKg&amp;feature=youtu.be" title="Capstone Presentation"><img alt="Click Here" src="https://img.youtube.com/vi/VeECWp_cgKg&amp;feature=youtu.be/0.jpg"></a></p>
+</div>
+    </div>
+    <aside class="postpromonav"><nav><ul itemprop="keywords" class="tags">
+<li><a class="tag p-category" href="../../categories/machine-learning/" rel="tag">machine-learning</a></li>
+        </ul>
+<ul class="pager hidden-print">
+<li class="previous">
+                <a href="../multiple-regression-in-python-gradient-descent/" rel="prev" title="Multiple Regression in Python- Gradient Descent">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="charlesfranzen",
+            disqus_url="http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/",
+        disqus_title="Presentation: US Visa Application Analysis",
+        disqus_identifier="cache/posts/presentation-us-visa-application-analysis.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section></article><script>var disqus_shortname="charlesfranzen";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2016         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License
+style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+<br>This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Franzen</span> is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
