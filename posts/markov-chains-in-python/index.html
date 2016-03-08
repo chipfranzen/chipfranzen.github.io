@@ -146,7 +146,7 @@ Markov chains can be visualized as graphs, with weights"><meta property="og:type
 <div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">state_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'A'</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'B'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">],</span>
                              <span class="p">[</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">,</span> <span class="o">.</span><span class="mi">4</span><span class="p">]]),</span>
@@ -176,23 +176,23 @@ Markov chains can be visualized as graphs, with weights"><meta property="og:type
 <div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">Markov</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">class</span> <span class="nc">Markov</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state_dict</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">check_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'Current State: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">'Current State: %s'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">set_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'State is now: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">'State is now: %s'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">next_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">p</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'New State: </span><span class="si">%s</span><span class="s">'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s">'New State: %s'</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -215,7 +215,7 @@ Markov chains can be visualized as graphs, with weights"><meta property="og:type
 <div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">diagram_a</span> <span class="o">=</span> <span class="n">Markov</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">diagram_a</span> <span class="o">=</span> <span class="n">Markov</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
 <span class="n">diagram_a</span><span class="o">.</span><span class="n">check_state</span><span class="p">()</span>
 </pre></div>
 
@@ -244,7 +244,7 @@ Markov chains can be visualized as graphs, with weights"><meta property="og:type
 <div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">diagram_a</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="s">'B'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span class="n">diagram_a</span><span class="o">.</span><span class="n">set_state</span><span class="p">(</span><span class="s">'B'</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -272,7 +272,7 @@ Markov chains can be visualized as graphs, with weights"><meta property="og:type
 <div class="prompt input_prompt">In [25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<div class=" highlight hl-ipython3"><pre><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="n">diagram_a</span><span class="o">.</span><span class="n">next_state</span><span class="p">()</span>
 </pre></div>
 
