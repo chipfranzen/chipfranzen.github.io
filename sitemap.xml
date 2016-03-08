@@ -19,15 +19,19 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2016-02-07T11:27:00Z</lastmod>
+  <lastmod>2016-03-08T06:10:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
-  <lastmod>2016-01-02T05:24:00Z</lastmod>
+  <lastmod>2016-03-08T06:11:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/classification/</loc>
   <lastmod>2016-01-02T03:19:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/categories/linear-algebra/</loc>
+  <lastmod>2016-03-08T06:11:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/machine-learning/</loc>
@@ -68,6 +72,10 @@
  <url>
   <loc>http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/</loc>
   <lastmod>2016-02-07T11:27:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/qr-factorization-using-numpy/</loc>
+  <lastmod>2016-03-08T06:11:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</loc>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Charles Franzen</title><link>http://charlesfranzen.com/</link><description>A blog about data, python, and whatever else crosses my mind.</description><atom:link href="http://charlesfranzen.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Mar 2016 06:11:01 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QR factorization using numpy</title><link>http://charlesfranzen.com/posts/qr-factorization-using-numpy/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+<?xml-stylesheet type="text/xsl" href="../assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Charles Franzen (linear algebra)</title><link>http://charlesfranzen.com/</link><description></description><atom:link href="http://charlesfranzen.com/categories/linear-algebra.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 08 Mar 2016 06:11:01 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>QR factorization using numpy</title><link>http://charlesfranzen.com/posts/qr-factorization-using-numpy/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;
@@ -442,80 +442,4 @@ Q*R
 &lt;/div&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-</description><category>linear algebra</category><category>python</category><guid>http://charlesfranzen.com/posts/qr-factorization-using-numpy/</guid><pubDate>Tue, 08 Mar 2016 02:05:02 GMT</pubDate></item><item><title>Presentation: US Visa Application Analysis</title><link>http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div&gt;&lt;p&gt;I recently made a presentation on a model that I created to analyze US Work Visa Applications. Click the image below to watch the YouTube video. The companion ipython notebook can be found &lt;a href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/"&gt;here.&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://www.youtube.com/watch?v=VeECWp_cgKg&amp;amp;feature=youtu.be" title="Capstone Presentation"&gt;&lt;img alt="Click Here" src="https://img.youtube.com/vi/VeECWp_cgKg&amp;amp;feature=youtu.be/0.jpg"&gt;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;</description><category>machine-learning</category><guid>http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/</guid><pubDate>Sun, 07 Feb 2016 11:20:11 GMT</pubDate></item><item><title>Multiple Regression in Python- Gradient Descent</title><link>http://charlesfranzen.com/posts/multiple-regression-in-python-gradient-descent/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Multiple-Regression--Gradient-Descent"&gt;Multiple Regression- Gradient Descent&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/multiple-regression-in-python-gradient-descent/#Multiple-Regression--Gradient-Descent"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;As the number of features used in regression increases, the matrix operations required by the closed-form solution become computationaly expensive, if not impossible.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/multiple-regression-in-python-gradient-descent/"&gt;Read more…&lt;/a&gt; (4 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>machine-learning</category><category>python</category><category>regression</category><category>statistics</category><guid>http://charlesfranzen.com/posts/multiple-regression-in-python-gradient-descent/</guid><pubDate>Mon, 18 Jan 2016 09:46:22 GMT</pubDate></item><item><title>Markov Chains in Python</title><link>http://charlesfranzen.com/posts/markov-chains-in-python/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Representing-Markov-Chains-in-Python-3"&gt;Representing Markov Chains in Python 3&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/markov-chains-in-python/#Representing-Markov-Chains-in-Python-3"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Markov chains are random processes wherein state-changes occur according to some probablility function.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/markov-chains-in-python/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>statistics</category><guid>http://charlesfranzen.com/posts/markov-chains-in-python/</guid><pubDate>Mon, 11 Jan 2016 13:17:50 GMT</pubDate></item><item><title>Simple Linear Regression in Python</title><link>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Simple-Linear-Regression--Closed-Form"&gt;Simple Linear Regression- Closed Form&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/#Simple-Linear-Regression--Closed-Form"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common methods used is ordinary least squares (OLS), which minimizes the square of the residuals of a line plotted against the data points.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>regression</category><category>statistics</category><guid>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</guid><pubDate>Sat, 02 Jan 2016 03:28:52 GMT</pubDate></item><item><title>Simple Voting Classifier</title><link>http://charlesfranzen.com/posts/simple-voting-classifier/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Simple-Voting-Classifier-in-Python"&gt;Simple Voting Classifier in Python&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-voting-classifier/#Simple-Voting-Classifier-in-Python"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Libraries like Scikit-learn are sometimes equiped with a voting classifier that will allow you to aggregate your machine learning models through voting. If you have a bunch of models already built, though, voting classifiers can take a very long time to build, as each individual model has to be built again by the new classifier.&lt;/p&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>http://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item><item><title>Machine Learning- Classifying US Visa Applications</title><link>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Predicting-Acceptance-of-US-Visa-Applications-Using-Machine-Learning"&gt;Predicting Acceptance of US Visa Applications Using Machine Learning&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/#Predicting-Acceptance-of-US-Visa-Applications-Using-Machine-Learning"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Capstone Project for SlideRule Intensive Data Science workshop.&lt;/p&gt;
-&lt;p&gt;Charles Franzen&lt;/p&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h3 id="The-Project"&gt;The Project&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/#The-Project"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Each year hundreds of thousands of applications are filed for work visas in the US. So many, in fact, that legistated caps on the number of H-1B applications have been reached every single year since 2007. In 2008, the quota was reached on the first day of open applications. In light of this, companies and potential employees that are lucky enough to get their application in via the lottery want to ensure that they have as high a chance as possible of having their application approved.&lt;/p&gt;
-&lt;p&gt;This project investigates application data sets and create models that predict the risk of rejection of a new application. These models can evaluate the strength of an application before it is submitted, and provide insights into how a weak application can be improved. The models also elucidate the most important factors determining the fate of a visa application.&lt;/p&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/"&gt;Read more…&lt;/a&gt; (27 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</guid><pubDate>Fri, 25 Dec 2015 13:03:46 GMT</pubDate></item></channel></rss>
+</description><category>linear algebra</category><category>python</category><guid>http://charlesfranzen.com/posts/qr-factorization-using-numpy/</guid><pubDate>Tue, 08 Mar 2016 02:05:02 GMT</pubDate></item></channel></rss>
