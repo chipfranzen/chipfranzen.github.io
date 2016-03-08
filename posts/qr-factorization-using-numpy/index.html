@@ -45,7 +45,9 @@ MathJax.Hub.Config({
 
 
 QR factorization factorizes a matrix A into an orthonormal matrix Q and a triangular matrix R.
-$$\textbf{Q}\textbf{R}=\textbf{A}$$This factorization "><meta property="og:type" content="article"><meta property="article:published_time" content="2016-03-08T10:05:02+08:00"><meta property="article:tag" content="linear algebra"><meta property="article:tag" content="python"></p>
+$$\textbf{Q}\textbf{R}=\textbf{A}$$
+
+This factorizatio"><meta property="og:type" content="article"><meta property="article:published_time" content="2016-03-08T10:05:02+08:00"><meta property="article:tag" content="linear algebra"><meta property="article:tag" content="python"></p>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
 
 <!-- Menubar -->
@@ -147,7 +149,9 @@ $$\textbf{Q}\textbf{R}=\textbf{A}$$This factorization "><meta property="og:type"
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>QR factorization factorizes a matrix <strong>A</strong> into an orthonormal matrix <strong>Q</strong> and a triangular matrix <strong>R</strong>.</p>
-$$\textbf{Q}\textbf{R}=\textbf{A}$$<p>This factorization can be used to solve matrix equations or to solve the least squares problem. Numpy already has a QR function (np.linalg.qr), but this is a way to cement my own understanding of the concepts.</p>
+$$\textbf{Q}\textbf{R}=\textbf{A}$$<!-- TEASER_END -->
+
+<p>This factorization can be used to solve matrix equations or to solve the least squares problem. Numpy already has a QR function (np.linalg.qr), but this is a way to cement my own understanding of the concepts.</p>
 <p>The matrix <strong>Q</strong> is created by orthonormalizing the original matrix <strong>A</strong>. To do this, first orthogonalize the columns of <strong>A</strong>, then divide each column-vector by it's norm.</p>
 <p>In order to do this, it's necessary project one vector orthogonally to another, i.e. extract the part of one vector that is at a right angle to another. The projections of vector <strong>b</strong> parallel and orthogonal to vector <strong>v</strong> are given by:</p>
 $$\boldsymbol{b}=\boldsymbol{b}^{\parallel \boldsymbol{v}}+\boldsymbol{b}^{\bot \boldsymbol{v}}$$<p>The parallel projection takes two steps. First, find a value for the scalar sigma. Then, scale vector <strong>v</strong> by sigma.</p>
