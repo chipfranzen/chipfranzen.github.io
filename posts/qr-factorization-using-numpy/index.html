@@ -155,7 +155,7 @@ $$\textbf{Q}\textbf{R}=\textbf{A}$$<!-- TEASER_END -->
 <p>The matrix <strong>Q</strong> is created by orthonormalizing the original matrix <strong>A</strong>. To do this, first orthogonalize the columns of <strong>A</strong>, then divide each column-vector by it's norm.</p>
 <p>In order to do this, it's necessary project one vector orthogonally to another, i.e. extract the part of one vector that is at a right angle to another. The projections of vector <strong>b</strong> parallel and orthogonal to vector <strong>v</strong> are given by:</p>
 $$\boldsymbol{b}=\boldsymbol{b}^{\parallel \boldsymbol{v}}+\boldsymbol{b}^{\bot \boldsymbol{v}}$$<p>The parallel projection takes two steps. First, find a value for the scalar sigma. Then, scale vector <strong>v</strong> by sigma.</p>
-$$\sigma =\dfrac{\left}{\left}$$$$\boldsymbol{b}^{\parallel \boldsymbol{v}}=\sigma \boldsymbol{v}$$
+$$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymbol{v}, \boldsymbol{v}\rangle}$$$$\boldsymbol{b}^{\parallel \boldsymbol{v}}=\sigma \boldsymbol{v}$$
 </div>
 </div>
 </div>
@@ -355,7 +355,7 @@ $$\sigma =\dfrac{\left}{\left}$$$$\boldsymbol{b}^{\parallel \boldsymbol{v}}=\sig
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Now that the vectors are mutually orthogonal, they can be normalized by scaling each by 1/norm. The norm of a vector is given by:
-$$\left\| \boldsymbol{v} \right\|=\sqrt {\left}$$</p>
+$$\left\| \boldsymbol{v} \right\|=\sqrt {\langle \boldsymbol{v}, \boldsymbol{v}\rangle}$$</p>
 
 </div>
 </div>
