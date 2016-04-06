@@ -35,7 +35,7 @@ MathJax.Hub.Config({
 
     
 
-    <meta name="author" content="Charles Franzen"><link rel="prev" href="../presentation-us-visa-application-analysis/" title="Presentation: US Visa Application Analysis" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="QR factorization using numpy"><meta property="og:url" content="http://charlesfranzen.com/posts/qr-factorization-using-numpy/"><meta property="og:description" content="QR factorization - a Numpy implementation¶
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../presentation-us-visa-application-analysis/" title="Presentation: US Visa Application Analysis" type="text/html"><link rel="next" href="../dimensionality-reduction-identifying-numerical-candidates-for-pca/" title="Dimensionality Reduction: Identifying numerical candidates for PCA" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="QR factorization using numpy"><meta property="og:url" content="http://charlesfranzen.com/posts/qr-factorization-using-numpy/"><meta property="og:description" content="QR factorization - a Numpy implementation¶
 
 
 
@@ -161,7 +161,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [1]:</div>
+<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -200,7 +200,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [2]:</div>
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">project_orthogonal</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
@@ -235,7 +235,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [3]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
@@ -265,7 +265,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[3]:</div>
+<div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -290,7 +290,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [4]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">orthogonalize</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -319,7 +319,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [5]:</div>
+<div class="prompt input_prompt">In [8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
@@ -335,7 +335,7 @@ $$\sigma =\dfrac{\langle \boldsymbol{b},\boldsymbol{v}\rangle}{\langle \boldsymb
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[5]:</div>
+<div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -362,7 +362,7 @@ $$\left\| \boldsymbol{v} \right\|=\sqrt {\langle \boldsymbol{v}, \boldsymbol{v}\
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [6]:</div>
+<div class="prompt input_prompt">In [9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">orthonormalize</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -383,7 +383,7 @@ $$\left\| \boldsymbol{v} \right\|=\sqrt {\langle \boldsymbol{v}, \boldsymbol{v}\
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [7]:</div>
+<div class="prompt input_prompt">In [10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">orthonormalize</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -398,7 +398,7 @@ $$\left\| \boldsymbol{v} \right\|=\sqrt {\langle \boldsymbol{v}, \boldsymbol{v}\
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[7]:</div>
+<div class="prompt output_prompt">Out[10]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -426,7 +426,7 @@ $$\textbf{R}=\textbf{Q}^{T}\textbf{A}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [8]:</div>
+<div class="prompt input_prompt">In [21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="k">def</span> <span class="nf">QR_factorize</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -440,9 +440,9 @@ $$\textbf{R}=\textbf{Q}^{T}\textbf{A}$$
 <span class="sd">            space as the input</span>
 <span class="sd">        R = a triangualr matrix of vectors such that Q*R = A</span>
 <span class="sd">    '''</span>
-    <span class="n">Q</span> <span class="o">=</span> <span class="n">orthonormalize</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">Q</span><span class="p">,</span> <span class="n">R</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">orthonormalize</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span>
 </pre></div>
 
 </div>
@@ -452,7 +452,7 @@ $$\textbf{R}=\textbf{Q}^{T}\textbf{A}$$
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [9]:</div>
+<div class="prompt input_prompt">In [30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]])</span>
@@ -522,7 +522,7 @@ Q*R
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [10]:</div>
+<div class="prompt input_prompt">In [31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">Q</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">qr</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
@@ -582,7 +582,7 @@ Q*R
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [18]:</div>
+<div class="prompt input_prompt">In [26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
@@ -595,7 +595,7 @@ Q*R
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [19]:</div>
+<div class="prompt input_prompt">In [27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="o">%%</span><span class="k">time</span>
@@ -613,8 +613,8 @@ Q, R = QR_factorize(A)
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 7.79 s, sys: 40 ms, total: 7.83 s
-Wall time: 7.74 s
+<pre>CPU times: user 12.8 s, sys: 64.6 ms, total: 12.9 s
+Wall time: 16.7 s
 </pre>
 </div>
 </div>
@@ -625,7 +625,7 @@ Wall time: 7.74 s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [20]:</div>
+<div class="prompt input_prompt">In [28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span class="o">%%</span><span class="k">time</span>
@@ -643,8 +643,8 @@ Q, R = np.linalg.qr(A)
 <div class="output_area">
 <div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>CPU times: user 326 ms, sys: 34.5 ms, total: 361 ms
-Wall time: 194 ms
+<pre>CPU times: user 381 ms, sys: 41.9 ms, total: 423 ms
+Wall time: 337 ms
 </pre>
 </div>
 </div>
@@ -674,6 +674,9 @@ Wall time: 194 ms
 <ul class="pager hidden-print">
 <li class="previous">
                 <a href="../presentation-us-visa-application-analysis/" rel="prev" title="Presentation: US Visa Application Analysis">Previous post</a>
+            </li>
+            <li class="next">
+                <a href="../dimensionality-reduction-identifying-numerical-candidates-for-pca/" rel="next" title="Dimensionality Reduction: Identifying numerical candidates for PCA">Next post</a>
             </li>
         </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
         

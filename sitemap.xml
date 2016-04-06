@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2016-03-08T06:10:00Z</lastmod>
+  <lastmod>2016-04-06T08:13:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
@@ -56,6 +56,10 @@
  <url>
   <loc>http://charlesfranzen.com/listings/</loc>
   <lastmod>2015-12-26T03:31:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/dimensionality-reduction-identifying-numerical-candidates-for-pca/</loc>
+  <lastmod>2016-04-06T08:13:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</loc>
