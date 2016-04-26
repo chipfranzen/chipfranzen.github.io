@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2016-04-06T08:13:00Z</lastmod>
+  <lastmod>2016-04-26T13:15:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
@@ -72,6 +72,10 @@
  <url>
   <loc>http://charlesfranzen.com/posts/multiple-regression-in-python-gradient-descent/</loc>
   <lastmod>2016-01-18T15:54:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/predicting-activities-from-accelerometer-data/</loc>
+  <lastmod>2016-04-26T13:15:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/posts/presentation-us-visa-application-analysis/</loc>

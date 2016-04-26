@@ -156,10 +156,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [613]:</div>
+<div class="prompt input_prompt">In [1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">math</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
@@ -193,10 +193,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [483]:</div>
+<div class="prompt input_prompt">In [2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">feature_derivative</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">feature_derivative</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">feature</span><span class="p">):</span>
     <span class="n">derivative</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">errors</span><span class="p">,</span> <span class="n">feature</span><span class="p">)</span>
     <span class="k">return</span><span class="p">(</span><span class="n">derivative</span><span class="p">)</span>
 </pre></div>
@@ -218,10 +218,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [558]:</div>
+<div class="prompt input_prompt">In [3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">gradient_descent_regression</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initial_coefficients</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">gradient_descent_regression</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initial_coefficients</span><span class="p">,</span> <span class="n">eta</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
     <span class="sd">''' Returns coefficients for multiple linear regression.</span>
 <span class="sd">    </span>
 <span class="sd">    inputs - </span>
@@ -239,7 +239,7 @@ return coefficients</code></pre>
     <span class="n">iteration</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">converged</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">iteration</span> <span class="o">&gt;</span> <span class="n">max_iterations</span><span class="p">:</span>
-            <span class="k">print</span> <span class="s">'Exceeded max iterations</span><span class="se">\n</span><span class="s">Coefficients: '</span><span class="p">,</span> <span class="n">w</span>
+            <span class="k">print</span> <span class="s1">'Exceeded max iterations</span><span class="se">\n</span><span class="s1">Coefficients: '</span><span class="p">,</span> <span class="n">w</span>
             <span class="k">return</span> <span class="n">w</span>
         <span class="n">pred</span> <span class="o">=</span> <span class="n">predict_output</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
         <span class="n">residuals</span> <span class="o">=</span> <span class="n">pred</span><span class="o">-</span><span class="n">y</span>
@@ -273,10 +273,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [626]:</div>
+<div class="prompt input_prompt">In [4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">matplotlib</span> inline
+<div class=" highlight hl-ipython2"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">n</span> <span class="o">=</span> <span class="mi">20</span>
@@ -284,7 +284,7 @@ return coefficients</code></pre>
 <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pts</span><span class="p">])</span> <span class="o">+</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">gauss</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">'*'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -296,11 +296,11 @@ return coefficients</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[626]:</div>
+<div class="prompt output_prompt">Out[4]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x11fe51bd0&gt;]</pre>
+<pre>[&lt;matplotlib.lines.Line2D at 0x105b53bd0&gt;]</pre>
 </div>
 
 </div>
@@ -331,10 +331,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [630]:</div>
+<div class="prompt input_prompt">In [5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">feature_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">feature_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">feature_matrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">feature_matrix</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">feature_matrix</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span>
@@ -362,10 +362,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [631]:</div>
+<div class="prompt input_prompt">In [6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">initial_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">initial_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">])</span>
 <span class="n">coef</span> <span class="o">=</span> <span class="n">gradient_descent_regression</span><span class="p">(</span><span class="n">feature_matrix</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initial_coefficients</span><span class="p">,</span> <span class="mf">6e-5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
@@ -401,10 +401,10 @@ return coefficients</code></pre>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In [632]:</div>
+<div class="prompt input_prompt">In [7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">model_prediction_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">/</span><span class="mf">10.</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)])</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">model_prediction_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">/</span><span class="mf">10.</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)])</span>
 <span class="n">model_prediction_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">40</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">model_prediction_matrix</span><span class="o">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="n">model_prediction_matrix</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
@@ -414,7 +414,7 @@ return coefficients</code></pre>
 
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">predict_output</span><span class="p">(</span><span class="n">model_prediction_matrix</span><span class="p">,</span> <span class="n">coef</span><span class="p">)</span>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s">'*'</span><span class="p">,</span> <span class="n">model_prediction_X</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="s">'-'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">'*'</span><span class="p">,</span> <span class="n">model_prediction_X</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="s1">'-'</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -426,12 +426,12 @@ return coefficients</code></pre>
 
 
 <div class="output_area">
-<div class="prompt output_prompt">Out[632]:</div>
+<div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x120361410&gt;,
- &lt;matplotlib.lines.Line2D at 0x120361510&gt;]</pre>
+<pre>[&lt;matplotlib.lines.Line2D at 0x104013fd0&gt;,
+ &lt;matplotlib.lines.Line2D at 0x105dc8950&gt;]</pre>
 </div>
 
 </div>
