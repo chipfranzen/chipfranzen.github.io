@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://charlesfranzen.com/</loc>
-  <lastmod>2016-01-19T01:20:00Z</lastmod>
+  <lastmod>2016-12-01T23:57:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/2015/</loc>
@@ -19,7 +19,7 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2016-05-03T03:21:00Z</lastmod>
+  <lastmod>2016-12-01T23:57:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
@@ -52,6 +52,10 @@
  <url>
   <loc>http://charlesfranzen.com/galleries/</loc>
   <lastmod>2015-12-26T03:31:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/index-1.html</loc>
+  <lastmod>2016-12-01T23:57:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/listings/</loc>
@@ -96,6 +100,10 @@
  <url>
   <loc>http://charlesfranzen.com/posts/text-summarizer/</loc>
   <lastmod>2016-05-03T03:21:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/time-complexity-of-matrix-multiplication/</loc>
+  <lastmod>2016-12-01T23:57:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/stories/about-me/</loc>

@@ -2,7 +2,6 @@
 <html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
 <head>
 <meta charset="utf-8">
-<base href="http://charlesfranzen.com/posts/text-summarizer/">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Text Summarizer | Charles Franzen</title>
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
@@ -35,7 +34,7 @@ MathJax.Hub.Config({
 
     
 
-    <meta name="author" content="Charles Franzen"><link rel="prev" href="../predicting-activities-from-accelerometer-data/" title="Predicting Activities from Accelerometer Data" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Text Summarizer"><meta property="og:url" content="http://charlesfranzen.com/posts/text-summarizer/"><meta property="og:description" content="Text Summarizer¶Overview¶This is a text summarizer based loosely on SMMRY. It returns the most important sentences in a document. It works by assigning a score to each sentence in one of 2 ways:
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../predicting-activities-from-accelerometer-data/" title="Predicting Activities from Accelerometer Data" type="text/html"><link rel="next" href="../time-complexity-of-matrix-multiplication/" title="Time Complexity of Matrix Multiplication" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Text Summarizer"><meta property="og:url" content="http://charlesfranzen.com/posts/text-summarizer/"><meta property="og:description" content="Text Summarizer¶Overview¶This is a text summarizer based loosely on SMMRY. It returns the most important sentences in a document. It works by assigning a score to each sentence in one of 2 ways:
 
 summ"><meta property="og:type" content="article"><meta property="article:published_time" content="2016-05-03T11:18:38+08:00"></p>
 <a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
@@ -401,6 +400,9 @@ summ"><meta property="og:type" content="article"><meta property="article:publish
 <li class="previous">
                 <a href="../predicting-activities-from-accelerometer-data/" rel="prev" title="Predicting Activities from Accelerometer Data">Previous post</a>
             </li>
+            <li class="next">
+                <a href="../time-complexity-of-matrix-multiplication/" rel="next" title="Time Complexity of Matrix Multiplication">Next post</a>
+            </li>
         </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
         
         
@@ -424,8 +426,21 @@ summ"><meta property="og:type" content="article"><meta property="article:publish
 
 
         </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
-            MathJax.Hub.Config({tex2jax: {inlineMath: [['$latex ','$'], ['\\(','\\)']]}});
-            </script></article><script>var disqus_shortname="charlesfranzen";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+# 
+
+</article><script>var disqus_shortname="charlesfranzen";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
 </div>
         <!--End of body content-->
 

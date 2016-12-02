@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Charles Franzen</title><link>http://charlesfranzen.com/</link><description>A blog about data, python, and whatever else crosses my mind.</description><atom:link rel="self" href="http://charlesfranzen.com/rss.xml" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Tue, 03 May 2016 03:40:15 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Text Summarizer</title><link>http://charlesfranzen.com/posts/text-summarizer/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0"><channel><title>Charles Franzen</title><link>http://charlesfranzen.com/</link><description>A blog about data, python, and whatever else crosses my mind.</description><atom:link rel="self" href="http://charlesfranzen.com/rss.xml" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 02 Dec 2016 00:10:19 GMT</lastBuildDate><generator>https://getnikola.com/</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Time Complexity of Matrix Multiplication</title><link>http://charlesfranzen.com/posts/time-complexity-of-matrix-multiplication/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Time-Complexity-of-Matrix-Multiplication"&gt;Time Complexity of Matrix Multiplication&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/time-complexity-of-matrix-multiplication/#Time-Complexity-of-Matrix-Multiplication"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Charles Franzen&lt;/p&gt;
+&lt;p&gt;This project investigates the time complexity of different matrix multiplication algorithms. The objectives of the project are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;understand and implement the naive, recursive and strassen algorithms for matrix multiplication&lt;/li&gt;
+&lt;li&gt;run experiments to measure the run-time for each algorithm for different sized $n$&lt;/li&gt;
+&lt;li&gt;extrapolate from this data to find crossing over points at which one algorithm becomes more efficient than another&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/time-complexity-of-matrix-multiplication/"&gt;Read more…&lt;/a&gt; (6 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://charlesfranzen.com/posts/time-complexity-of-matrix-multiplication/</guid><pubDate>Wed, 30 Nov 2016 19:39:10 GMT</pubDate></item><item><title>Text Summarizer</title><link>http://charlesfranzen.com/posts/text-summarizer/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;
@@ -97,34 +112,4 @@ $$\textbf{Q}\textbf{R}=\textbf{A}$$&lt;p&gt;&lt;a href="http://charlesfranzen.co
 &lt;/div&gt;
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>http://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item><item><title>Machine Learning- Classifying US Visa Applications</title><link>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Predicting-Acceptance-of-US-Visa-Applications-Using-Machine-Learning"&gt;Predicting Acceptance of US Visa Applications Using Machine Learning&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/#Predicting-Acceptance-of-US-Visa-Applications-Using-Machine-Learning"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Capstone Project for SlideRule Intensive Data Science workshop.&lt;/p&gt;
-&lt;p&gt;Charles Franzen&lt;/p&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h3 id="The-Project"&gt;The Project&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/#The-Project"&gt;¶&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;Each year hundreds of thousands of applications are filed for work visas in the US. So many, in fact, that legistated caps on the number of H-1B applications have been reached every single year since 2007. In 2008, the quota was reached on the first day of open applications. In light of this, companies and potential employees that are lucky enough to get their application in via the lottery want to ensure that they have as high a chance as possible of having their application approved.&lt;/p&gt;
-&lt;p&gt;This project investigates application data sets and create models that predict the risk of rejection of a new application. These models can evaluate the strength of an application before it is submitted, and provide insights into how a weak application can be improved. The models also elucidate the most important factors determining the fate of a visa application.&lt;/p&gt;
-
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/"&gt;Read more…&lt;/a&gt; (27 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://charlesfranzen.com/posts/machine-learning-classifying-us-visa-applications/</guid><pubDate>Fri, 25 Dec 2015 13:03:46 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-voting-classifier/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>classification</category><category>machine-learning</category><category>python</category><guid>http://charlesfranzen.com/posts/simple-voting-classifier/</guid><pubDate>Sat, 26 Dec 2015 03:42:53 GMT</pubDate></item></channel></rss>
