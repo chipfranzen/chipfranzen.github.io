@@ -7,7 +7,8 @@
 <link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
 <link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
-<meta content="#5670d4" name="theme-color">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
 <link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
 <link rel="canonical" href="http://charlesfranzen.com/posts/dimensionality-reduction-identifying-numerical-candidates-for-pca/">
 <script type="text/x-mathjax-config">
@@ -140,7 +141,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [116]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 </pre></div>
 
@@ -154,12 +155,12 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [100]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># set up a toy dataset with 10 variables</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># set up a toy dataset with 10 variables</span>
 <span class="n">r</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">c</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">toy_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-<span class="n">column_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'v'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">column_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'v'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
 <span class="n">toy_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">toy_set</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">column_labels</span><span class="p">)</span>
 </pre></div>
 
@@ -173,7 +174,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [101]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">toy_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">toy_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -295,7 +296,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [137]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">toy_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">toy_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -482,7 +483,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [144]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">toy_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s">'v1'</span><span class="p">][</span><span class="s">'v2'</span><span class="p">]</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">toy_df</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="s1">'v1'</span><span class="p">][</span><span class="s1">'v2'</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -524,7 +525,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [155]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">itertools</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">itertools</span>
 
 <span class="k">def</span> <span class="nf">corr_df</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="sd">''' </span>
@@ -532,20 +533,20 @@ MathJax.Hub.Config({
 <span class="sd">    output: pandas DataFrame listing every possible pair of variables and their corresponding </span>
 <span class="sd">            correlation (rho-squared)</span>
 <span class="sd">    '''</span>
-    <span class="c"># get column labels</span>
+    <span class="c1"># get column labels</span>
     <span class="n">column_labels</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">columns</span>
     
-    <span class="c"># create the initial correlation table</span>
+    <span class="c1"># create the initial correlation table</span>
     <span class="n">corr_df</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
     
-    <span class="c"># create a generator that will iterate through all possible pairs of variables</span>
+    <span class="c1"># create a generator that will iterate through all possible pairs of variables</span>
     <span class="n">combs</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">column_labels</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
     
-    <span class="c"># iterate through each pair, squaring the correlations</span>
+    <span class="c1"># iterate through each pair, squaring the correlations</span>
     <span class="n">corrs</span> <span class="o">=</span> <span class="p">[[</span><span class="n">comb</span><span class="p">,</span> <span class="n">corr_df</span><span class="p">[</span><span class="n">comb</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">comb</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span><span class="o">**</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">comb</span> <span class="ow">in</span> <span class="n">combs</span><span class="p">]</span>
     
-    <span class="c"># return a DataFrame of the correlations, sorted high-to-low</span>
-    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">corrs</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s">'Comb'</span><span class="p">,</span> <span class="s">'R^2'</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'R^2'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># return a DataFrame of the correlations, sorted high-to-low</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">corrs</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Comb'</span><span class="p">,</span> <span class="s1">'R^2'</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">'R^2'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -568,7 +569,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [156]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">corr_df</span><span class="p">(</span><span class="n">toy_df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">corr_df</span><span class="p">(</span><span class="n">toy_df</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
@@ -643,11 +644,11 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [106]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># set up a larger dataset with 1000 variables</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># set up a larger dataset with 1000 variables</span>
 <span class="n">big_r</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">big_c</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">big_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">big_r</span><span class="p">,</span> <span class="n">big_c</span><span class="p">)</span>
-<span class="n">big_column_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s">'v'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">big_c</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">big_column_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'v'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">big_c</span><span class="o">+</span><span class="mi">1</span><span class="p">)]</span>
 <span class="n">big_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">big_set</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">big_column_labels</span><span class="p">)</span>
 </pre></div>
 
@@ -671,7 +672,7 @@ MathJax.Hub.Config({
 <div class="prompt input_prompt">In [134]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="o">%%</span><span class="k">time</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="o">%%</span><span class="k">time</span>
 big_df.corr().head()
 </pre></div>
 
@@ -860,7 +861,7 @@ Wall time: 62.6 ms
 <div class="prompt input_prompt">In [130]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="o">%%</span><span class="k">time</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="o">%%</span><span class="k">time</span>
 big_corrs = corr_df(big_df)
 </pre></div>
 
@@ -902,7 +903,7 @@ Wall time: 6.86 s
 <div class="prompt input_prompt">In [150]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">big_corrs</span><span class="p">[</span><span class="n">big_corrs</span><span class="p">[</span><span class="s">'R^2'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">95</span><span class="p">]</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">big_corrs</span><span class="p">[</span><span class="n">big_corrs</span><span class="p">[</span><span class="s1">'R^2'</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="o">.</span><span class="mi">95</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -966,10 +967,10 @@ Wall time: 6.86 s
 <div class="prompt input_prompt">In [120]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 
 <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">()</span>
-<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">big_df</span><span class="p">[[</span><span class="s">'v471'</span><span class="p">,</span> <span class="s">'v521'</span><span class="p">]])</span>
+<span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">big_df</span><span class="p">[[</span><span class="s1">'v471'</span><span class="p">,</span> <span class="s1">'v521'</span><span class="p">]])</span>
 <span class="n">pca</span><span class="o">.</span><span class="n">explained_variance_ratio_</span>
 </pre></div>
 
@@ -1058,7 +1059,7 @@ MathJax.Hub.Config({
         <!--End of body content-->
 
         <footer id="footer">
-            Contents © 2016         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+            Contents © 2017         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
 <img alt="Creative Commons License
 style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
