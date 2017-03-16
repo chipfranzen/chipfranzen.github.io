@@ -7,7 +7,7 @@
                         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
  <url>
   <loc>http://charlesfranzen.com/</loc>
-  <lastmod>2016-12-01T23:57:00Z</lastmod>
+  <lastmod>2017-03-16T01:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/2015/</loc>
@@ -18,8 +18,12 @@
   <lastmod>2016-01-02T04:33:00Z</lastmod>
  </url>
  <url>
+  <loc>http://charlesfranzen.com/2017/</loc>
+  <lastmod>2017-03-16T01:22:00Z</lastmod>
+ </url>
+ <url>
   <loc>http://charlesfranzen.com/archive.html</loc>
-  <lastmod>2017-03-16T00:19:00Z</lastmod>
+  <lastmod>2017-03-16T01:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/categories/</loc>
@@ -55,11 +59,15 @@
  </url>
  <url>
   <loc>http://charlesfranzen.com/index-1.html</loc>
-  <lastmod>2017-03-16T00:19:00Z</lastmod>
+  <lastmod>2017-03-16T01:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/listings/</loc>
   <lastmod>2015-12-26T03:31:00Z</lastmod>
+ </url>
+ <url>
+  <loc>http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/</loc>
+  <lastmod>2017-03-16T01:22:00Z</lastmod>
  </url>
  <url>
   <loc>http://charlesfranzen.com/posts/dimensionality-reduction-identifying-numerical-candidates-for-pca/</loc>

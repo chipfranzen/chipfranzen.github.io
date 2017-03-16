@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Pipeline: Bitcoin Exchange Rates | Charles Franzen</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+</head>
+<body>
+<p>
+# 
+        <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]-->
+
+    
+
+
+    
+
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../time-complexity-of-matrix-multiplication/" title="Time Complexity of Matrix Multiplication" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Data Pipeline: Bitcoin Exchange Rates"><meta property="og:url" content="http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/"><meta property="og:description" content="Data Pipeline: Bitcoin Exchange Rates¶This is a project wherein I used AWS to host an end-to-end data pipeline using Bitcoin exchange rate data. The code for all this can be found on my github.
+
+
+Chec"><meta property="og:type" content="article"><meta property="article:published_time" content="2017-03-16T08:43:51+08:00"></p>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://charlesfranzen.com/">
+
+                <span id="blog-title">Charles Franzen</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../index.html">Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archives</a>
+                </li>
+<li>
+<a href="../../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS</a>
+                </li>
+<li>
+<a href="../../stories/about-me/index.html">About me</a>
+                </li>
+<li>
+<a href="https://www.linkedin.com/in/charles-franz%C3%A9n-40484a24">My Linked-In</a>
+                </li>
+<li>
+<a href="https://github.com/chipfranzen">My Github</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Data Pipeline: Bitcoin Exchange Rates</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-03-16T08:43:51+08:00" itemprop="datePublished" title="2017-03-16 08:43">2017-03-16 08:43</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/data-pipeline-bitcoin-exchange-rates.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.ipynb" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Data-Pipeline:-Bitcoin-Exchange-Rates">Data Pipeline: Bitcoin Exchange Rates<a class="anchor-link" href="#Data-Pipeline:-Bitcoin-Exchange-Rates">¶</a>
+</h2>
+<p>This is a project wherein I used AWS to host an end-to-end data pipeline using Bitcoin exchange rate data. The code for all this can be found <a href="https://github.com/chipfranzen/bitcoin-pipeline">on my github.</a></p>
+<!-- TEASER_END -->
+
+<p>Check out the front-ends: <a href="http://ec2-52-37-89-169.us-west-2.compute.amazonaws.com:8010">1</a>, <a href="http://ec2-52-37-89-169.us-west-2.compute.amazonaws.com:8011">2</a>, <a href="http://ec2-52-37-89-169.us-west-2.compute.amazonaws.com:8012">3</a>. Please note that only the third front-end is up to date, as I've had to shut down the cluster doing batch processing. I would be easy to spin it up and get it running again, though.</p>
+<h4 id="Project-Overview">Project Overview<a class="anchor-link" href="#Project-Overview">¶</a>
+</h4>
+<h5 id="Data-Source">Data Source<a class="anchor-link" href="#Data-Source">¶</a>
+</h5>
+<p>The data come from a REST api that provides bitcoin exchange rates in a variety of currency, updated every minute.</p>
+<h5 id="Project-Goals">Project Goals<a class="anchor-link" href="#Project-Goals">¶</a>
+</h5>
+<p>1) Gather data: Pull data continously from an api.</p>
+<p>2) Data persistence: Keep all the data I gather</p>
+<p>3) Data structuring: Transform data into 3NF for more efficient querying</p>
+<p>4) Batch processing: Perform batch operations using a distributed system</p>
+<p>5) Stream processing: Do real-time analysis on data as it comes in</p>
+<p>6) Front end: Have a webserver that provides easy access to the results of the analysis.</p>
+<p><img src="../../images/bitcoin_dag.png" alt="Directed Acyclic Graph"></p>
+<h5 id="Project-Details">Project Details<a class="anchor-link" href="#Project-Details">¶</a>
+</h5>
+<h6 id="Ingestion">Ingestion<a class="anchor-link" href="#Ingestion">¶</a>
+</h6>
+<p>I used the requests library to make HTTP requests to the Bitcoin Price Index. I used an EC2 instance and routed records into a Kinesis Firehose and a Kinesis Stream.</p>
+<h6 id="Storage">Storage<a class="anchor-link" href="#Storage">¶</a>
+</h6>
+<p>The Firehose goes to an S3 bucket, where the raw data are stored</p>
+<h6 id="Normalization">Normalization<a class="anchor-link" href="#Normalization">¶</a>
+</h6>
+<p>An EMR instance normalizes the data every day, using Spark. Structured data are output as parquet files and stored on S3. If I had time, I would have liked to explore time-series optimized databases, like Riak TS.</p>
+<h6 id="Batch-Processing">Batch Processing<a class="anchor-link" href="#Batch-Processing">¶</a>
+</h6>
+<p>For batch processing, I computed mins, maxs, and means for different time frames. I also computed moving averages over windows of time.</p>
+<p>Originally I wanted to use batch processing to perfrom hyperparameter selection for my prediction model. This would have involved fitting a model to every 60-minute window in the dataset, for each set of parameters. Predictions would be compared with the true values, and RMSE used to evaluate relative model performance.</p>
+<p>I was able to use Spark's windowing functionality to compute rolling means and standard deviations, but as of now Pyspark does not support user defined aggregation functions. I wrote one anyways and tested it in Pandas, though I wasn't able to spend enough time on it to find a really good model. Once this feature is added to Spark, I'll be ready to take advantage.</p>
+<p>Results of batch processes were stored as pickled Pandas DataFrames.</p>
+<h6 id="Stream-Processing">Stream Processing<a class="anchor-link" href="#Stream-Processing">¶</a>
+</h6>
+<p>Since I only wanted to do stream processing on the latest hour of data, I just wrote a Stream consumer based on Pandas. It keeps a cache of the last 60 mins of data, fits a Gaussian Process Regressor, and makes 1, 5, and 10 minute projections.</p>
+<p>The results are stored on S3 as pickled Pandas DataFrames.</p>
+<h6 id="Front-End">Front End<a class="anchor-link" href="#Front-End">¶</a>
+</h6>
+<p>I used Spyre to create a three-page front end. One page shows min, max, and averages rates over hours and days. Another shows the last day and week of full data, along with a rolling average. The final page shows the projections and the latest data from the stream processor.</p>
+<h5 id="Data-System-Considerations">Data System Considerations<a class="anchor-link" href="#Data-System-Considerations">¶</a>
+</h5>
+<h6 id="Robustness-and-tolerance">Robustness and tolerance<a class="anchor-link" href="#Robustness-and-tolerance">¶</a>
+</h6>
+<p>S3 is very robust. If the stream goes down, short-term functionality will be lost on the front-end, but the data itself will be safe in S3. One point of concern is that the REST API will only be called on a single EC2 machine. An improvement would be to have a redundant http requester and S3 data lake, so that if a requester goes down there will be a backup.</p>
+<h6 id="Low-latency-reads-and-updates.">Low latency reads and updates.<a class="anchor-link" href="#Low-latency-reads-and-updates.">¶</a>
+</h6>
+<p>The Lambda architecture allows the low latency of stream processing to be supported by the robustness and fault-tolerance of S3 and distributed databases. Latency on batch processing will be high, but it's only used for long-term applications.</p>
+<h6 id="Scalability">Scalability<a class="anchor-link" href="#Scalability">¶</a>
+</h6>
+<p>Most of these technologies are fully scalable.</p>
+<p>As for horizontal scaling: EC2, S3, and Spark are all highly scalable, horizontally. Spyre is only dealing with relatively small 'views' of the data, so it will scale fine as the data grows. However, if the number of data sources and desired views increases too much, a more heavy-duty front-end will be necessary.</p>
+<p>The Kinesis consumer is not very scalable. If the volume of data grows dramatically, something like Flink or Spark Streaming will need to be implemented.</p>
+<p>Fitting Gaussian Processes on more of the data might be a bit of a problem. As the data get bigger in terms of the number of points in the time-series, this technique scales fairly well: predictions can be made by keeping a small number of training points with an exponentially increasing distance between them further back in history. An issue is increasing the number of features. Gaussian Random Fields are extremely powerful, but also very computationally intensive. Scikit-learns implementations are pretty fast.</p>
+<h6 id="Generalization">Generalization<a class="anchor-link" href="#Generalization">¶</a>
+</h6>
+<p>This architecture will be extremely general. There are many, <em>many</em> REST APIs, and many time series that would benefit from short-term stream processing and long-term batch processing. Galaxies of financial data come in this form.</p>
+<h6 id="Extensibility">Extensibility<a class="anchor-link" href="#Extensibility">¶</a>
+</h6>
+<p>This project is easily extensible. All of the systems in place support the addition of new data sources, features, and models.</p>
+<h6 id="Ad-hoc-Queries">Ad hoc Queries<a class="anchor-link" href="#Ad-hoc-Queries">¶</a>
+</h6>
+<p>Ad hoc queries are a bit iffy. Since the structured data are stored as parquet files, the whole database has to be loaded into Spark to do a query. Getting the data into a real database, NoSQL or RDBMS, should improve query performance.</p>
+<h6 id="Minimal-maintenance">Minimal maintenance<a class="anchor-link" href="#Minimal-maintenance">¶</a>
+</h6>
+<p>This system will have to be monitored, but there's not too much that will have to be maintained. There is the single point of failure in the HTTP requester, but the data stream is not of variable volume, so the Kinesis stream and everything downstream of that should be ok once the system is up and running. Cronjobs will take care of schedule data structuring and batch processing. The front end will update on refresh.</p>
+<p>The system is complex, especially considering how little data there will actually be in it, but it's built to scale and handle Big Data if and when it comes, so some complexity is necessary to handle those requirements.</p>
+<h6 id="Debuggability">Debuggability<a class="anchor-link" href="#Debuggability">¶</a>
+</h6>
+<p>The data will always be stored in raw form in S3, so bugs can be ferreted out, data restructured, and models recomputed if the worst happens and later layers get corrupted. I'll be doing my best to annotate code and provide guidance to those examining my system.</p>
+
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../time-complexity-of-matrix-multiplication/" rel="prev" title="Time Complexity of Matrix Multiplication">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="charlesfranzen",
+            disqus_url="http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/",
+        disqus_title="Data Pipeline: Bitcoin Exchange Rates",
+        disqus_identifier="cache/posts/data-pipeline-bitcoin-exchange-rates.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+# 
+
+</article><script>var disqus_shortname="charlesfranzen";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License
+style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+<br>This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Franzen</span> is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
