@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/"><channel><title>Charles Franzen</title><link>http://charlesfranzen.com/</link><description>A blog about data, python, and whatever else crosses my mind.</description><atom:link href="http://charlesfranzen.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Thu, 16 Mar 2017 01:25:31 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Data Pipeline: Bitcoin Exchange Rates</title><link>http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Charles Franzen</title><link>http://charlesfranzen.com/</link><description>A blog about data, python, and whatever else crosses my mind.</description><atom:link href="http://charlesfranzen.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><lastBuildDate>Fri, 17 Mar 2017 00:41:03 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Modeling Customer Behavior with Markov Chains</title><link>http://charlesfranzen.com/posts/modeling-customer-behavior-with-markov-chains/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
+    &lt;div class="container" id="notebook-container"&gt;
+
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h2 id="Modeling-Churn-and-CLV-with-Markov-Chains"&gt;Modeling Churn and CLV with Markov Chains&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/modeling-customer-behavior-with-markov-chains/#Modeling-Churn-and-CLV-with-Markov-Chains"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Charles Franzen&lt;/p&gt;
+&lt;p&gt;Christiaan Fulton&lt;/p&gt;
+&lt;p&gt;Vijeth Lomada&lt;/p&gt;
+&lt;p&gt;In this project, we examine records of purchases over an eleven year period, segment customers according to the RFM model (recency, frequency, and monetary value), and construct a transition matrix to model their behavior. This, along with a reward function, is then used to create a marketing policy for each customer segment, based upon Customer Lifetime Value (CLV).&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/modeling-customer-behavior-with-markov-chains/"&gt;Read more…&lt;/a&gt; (21 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><guid>http://charlesfranzen.com/posts/modeling-customer-behavior-with-markov-chains/</guid><pubDate>Fri, 17 Mar 2017 00:13:28 GMT</pubDate></item><item><title>Data Pipeline: Bitcoin Exchange Rates</title><link>http://charlesfranzen.com/posts/data-pipeline-bitcoin-exchange-rates/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
     &lt;div class="container" id="notebook-container"&gt;
 
 &lt;div class="cell border-box-sizing text_cell rendered"&gt;
@@ -94,13 +106,4 @@ $$\textbf{Q}\textbf{R}=\textbf{A}$$&lt;p&gt;&lt;a href="http://charlesfranzen.co
 &lt;div class="inner_cell"&gt;
 &lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
 &lt;h2 id="Representing-Markov-Chains-in-Python-3"&gt;Representing Markov Chains in Python 3&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/markov-chains-in-python/#Representing-Markov-Chains-in-Python-3"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Markov chains are random processes wherein state-changes occur according to some probablility function.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/markov-chains-in-python/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>statistics</category><guid>http://charlesfranzen.com/posts/markov-chains-in-python/</guid><pubDate>Mon, 11 Jan 2016 13:17:50 GMT</pubDate></item><item><title>Simple Linear Regression in Python</title><link>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</link><dc:creator>Charles Franzen</dc:creator><description>&lt;div tabindex="-1" id="notebook" class="border-box-sizing"&gt;
-    &lt;div class="container" id="notebook-container"&gt;
-
-&lt;div class="cell border-box-sizing text_cell rendered"&gt;
-&lt;div class="prompt input_prompt"&gt;
-&lt;/div&gt;
-&lt;div class="inner_cell"&gt;
-&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
-&lt;h2 id="Simple-Linear-Regression--Closed-Form"&gt;Simple Linear Regression- Closed Form&lt;a class="anchor-link" href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/#Simple-Linear-Regression--Closed-Form"&gt;¶&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;A Simple Linear Regression fits a line to data points with two dimensions. It does this by defining and then minimizing a cost function. One of the most common methods used is ordinary least squares (OLS), which minimizes the square of the residuals of a line plotted against the data points.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/simple-linear-regression-in-python/"&gt;Read more…&lt;/a&gt; (2 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>regression</category><category>statistics</category><guid>http://charlesfranzen.com/posts/simple-linear-regression-in-python/</guid><pubDate>Sat, 02 Jan 2016 03:28:52 GMT</pubDate></item></channel></rss>
+&lt;p&gt;&lt;a href="http://charlesfranzen.com/posts/markov-chains-in-python/"&gt;Read more…&lt;/a&gt; (1 min remaining to read)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</description><category>python</category><category>statistics</category><guid>http://charlesfranzen.com/posts/markov-chains-in-python/</guid><pubDate>Mon, 11 Jan 2016 13:17:50 GMT</pubDate></item></channel></rss>
