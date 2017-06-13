@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns# article: http://ogp.me/ns/article# " lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neural Networks for Contextual Multi-armed Bandits | Charles Franzen</title>
+<link href="../../assets/css/all-nocdn.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/ipython.min.css" rel="stylesheet" type="text/css">
+<link href="../../assets/css/nikola_ipython.css" rel="stylesheet" type="text/css">
+<meta name="theme-color" content="#5670d4">
+<meta name="generator" content="Nikola (getnikola.com)">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../../rss.xml">
+<link rel="canonical" href="http://charlesfranzen.com/posts/neural-networks-for-contextual-multi-armed-bandits/">
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+</head>
+<body>
+<p>
+# 
+        <!--[if lt IE 9]><script src="../../assets/js/html5.js"></script><![endif]-->
+
+    
+
+
+    
+
+    <meta name="author" content="Charles Franzen"><link rel="prev" href="../modeling-customer-behavior-with-markov-chains/" title="Modeling Customer Behavior with Markov Chains" type="text/html"><meta property="og:site_name" content="Charles Franzen"><meta property="og:title" content="Neural Networks for Contextual Multi-armed Bandits"><meta property="og:url" content="http://charlesfranzen.com/posts/neural-networks-for-contextual-multi-armed-bandits/"><meta property="og:description" content="Neural Bandit, a neural networks committee for the contextual bandit problem¶Charles Franzen
+5/9/17
+Contextual Multi-armed bandits¶The contextual multi-armed bandit (MAB) problem can be quickly summar"><meta property="og:type" content="article"><meta property="article:published_time" content="2017-06-14T07:18:50+08:00"></p>
+<a href="#content" class="sr-only sr-only-focusable">Skip to main content</a>
+
+<!-- Menubar -->
+
+<nav class="navbar navbar-inverse navbar-static-top"><div class="container">
+<!-- This keeps the margins nice -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-controls="bs-navbar" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="http://charlesfranzen.com/">
+
+                <span id="blog-title">Charles Franzen</span>
+            </a>
+        </div>
+<!-- /.navbar-header -->
+        <div class="collapse navbar-collapse" id="bs-navbar" aria-expanded="false">
+            <ul class="nav navbar-nav">
+<li>
+<a href="../../index.html">Home</a>
+                </li>
+<li>
+<a href="../../archive.html">Archives</a>
+                </li>
+<li>
+<a href="../../categories/index.html">Tags</a>
+                </li>
+<li>
+<a href="../../rss.xml">RSS</a>
+                </li>
+<li>
+<a href="../../stories/about-me/index.html">About me</a>
+                </li>
+<li>
+<a href="https://www.linkedin.com/in/charles-franz%C3%A9n-40484a24">My Linked-In</a>
+                </li>
+<li>
+<a href="https://github.com/chipfranzen">My Github</a>
+
+                
+            </li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+    <a href="index.ipynb" id="sourcelink">Source</a>
+    </li>
+
+                
+            </ul>
+</div>
+<!-- /.navbar-collapse -->
+    </div>
+<!-- /.container -->
+</nav><!-- End of Menubar --><div class="container" id="content" role="main">
+    <div class="body-content">
+        <!--Body content-->
+        <div class="row">
+            
+            
+<article class="post-text h-entry hentry postpage" itemscope="itemscope" itemtype="http://schema.org/Article"><header><h1 class="p-name entry-title" itemprop="headline name"><a href="." class="u-url">Neural Networks for Contextual Multi-armed Bandits</a></h1>
+
+        <div class="metadata">
+            <p class="byline author vcard"><span class="byline-name fn">
+                    Charles Franzen
+            </span></p>
+            <p class="dateline"><a href="." rel="bookmark"><time class="published dt-published" datetime="2017-06-14T07:18:50+08:00" itemprop="datePublished" title="2017-06-14 07:18">2017-06-14 07:18</time></a></p>
+                <p class="commentline">
+        
+    <a href="#disqus_thread" data-disqus-identifier="cache/posts/neural-networks-for-contextual-multi-armed-bandits.html">Comments</a>
+
+
+            
+        </p>
+<p class="sourceline"><a href="index.ipynb" id="sourcelink">Source</a></p>
+
+        </div>
+        
+
+    </header><div class="e-content entry-content" itemprop="articleBody text">
+    <div tabindex="-1" id="notebook" class="border-box-sizing">
+    <div class="container" id="notebook-container">
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Neural-Bandit,-a-neural-networks-committee-for-the-contextual-bandit-problem">Neural Bandit, a neural networks committee for the contextual bandit problem<a class="anchor-link" href="#Neural-Bandit,-a-neural-networks-committee-for-the-contextual-bandit-problem">¶</a>
+</h2>
+<p>Charles Franzen</p>
+<p>5/9/17</p>
+<h3 id="Contextual-Multi-armed-bandits">Contextual Multi-armed bandits<a class="anchor-link" href="#Contextual-Multi-armed-bandits">¶</a>
+</h3>
+<p>The contextual multi-armed bandit (MAB) problem can be quickly summarized as follows: a person is shown a context at timestep $t$ and asked to choose among $K$ actions. An action is chosen, a reward is revealed, and a new context is shown for the next timestep $t+1$. The problem is how to make a sequence of decisions about what action to take, given the context and history of contexts, actions and rewards. The goal is to maximize the payout.</p>
+<!-- TEASER_END -->
+
+<p>More formally, given a set of $K$ actions and a sequence of contexts $X = x_1, x_2, ..., x_t$, $x_t \in \mathbb{R}^n$ and rewards $R = r_1, r_2, ..., r_t$, $r_t \in \mathbb{R}^K$ of length $T$, choose actions at each timestep that maximize the total reward recieved.</p>
+<p>This problem is also an <em>adversarial</em> bandit problem, because no statistical assumptions are made about the reward distribution.</p>
+<p>In practice, rather than attempting to maximize reward, bandit algorithms attempt to minimize <em>regret</em>, which is the difference between the obtained rewards and the rewards obtained by the best possible strategy.</p>
+<p>NOTE: I use the terms 'action' and 'arm' interchangeably.</p>
+<h3 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">¶</a>
+</h3>
+<p>The dataset I used to investigate contextual bandits is the UCI Covertype dataset. It consists of 580,000 data points, with 54 features and a target variable of 7 classes. The features represent various attributes of locations such as elevation, soil type, and amount of sunlight. The classes are forest cover types. To adapt this to the contextual bandit, the target was one-hot coded into length 7 reward vectors. The problem then is to move through the sequence of data points and make online decisions. If action 3 were selected based on some context, then only reward 3 is revealed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">reset</span> <span class="o">-</span><span class="n">fs</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">keras</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="k">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="k">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span>
+<span class="kn">from</span> <span class="nn">keras</span> <span class="k">import</span> <span class="n">regularizers</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">MinMaxScaler</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>Using TensorFlow backend.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Data-munging-and-exploratory-analysis">Data munging and exploratory analysis<a class="anchor-link" href="#Data-munging-and-exploratory-analysis">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">col_names</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">'elevation'</span><span class="p">,</span>
+    <span class="s1">'aspect'</span><span class="p">,</span>
+    <span class="s1">'slope'</span><span class="p">,</span>
+    <span class="s1">'h_dist_hydro'</span><span class="p">,</span>
+    <span class="s1">'v_dist_hydro'</span><span class="p">,</span>
+    <span class="s1">'h_dist_road'</span><span class="p">,</span>
+    <span class="s1">'shade_9am'</span><span class="p">,</span>
+    <span class="s1">'shade_noon'</span><span class="p">,</span>
+    <span class="s1">'shade_3pm'</span><span class="p">,</span>
+    <span class="s1">'h_dist_fire'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">col_names</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">'wild_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="n">col_names</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">'soil_'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">40</span><span class="p">)]</span>
+<span class="n">col_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">'cover_type'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'covtype.data'</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="n">col_names</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># with open('soil_cover.pkl', mode='xb') as f:</span>
+<span class="c1">#     pickle.dump(df, f)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[6]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>elevation</th>
+      <th>aspect</th>
+      <th>slope</th>
+      <th>h_dist_hydro</th>
+      <th>v_dist_hydro</th>
+      <th>h_dist_road</th>
+      <th>shade_9am</th>
+      <th>shade_noon</th>
+      <th>shade_3pm</th>
+      <th>h_dist_fire</th>
+      <th>...</th>
+      <th>soil_31</th>
+      <th>soil_32</th>
+      <th>soil_33</th>
+      <th>soil_34</th>
+      <th>soil_35</th>
+      <th>soil_36</th>
+      <th>soil_37</th>
+      <th>soil_38</th>
+      <th>soil_39</th>
+      <th>cover_type</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>0</th>
+      <td>2596</td>
+      <td>51</td>
+      <td>3</td>
+      <td>258</td>
+      <td>0</td>
+      <td>510</td>
+      <td>221</td>
+      <td>232</td>
+      <td>148</td>
+      <td>6279</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+    </tr>
+<tr>
+<th>1</th>
+      <td>2590</td>
+      <td>56</td>
+      <td>2</td>
+      <td>212</td>
+      <td>-6</td>
+      <td>390</td>
+      <td>220</td>
+      <td>235</td>
+      <td>151</td>
+      <td>6225</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+    </tr>
+<tr>
+<th>2</th>
+      <td>2804</td>
+      <td>139</td>
+      <td>9</td>
+      <td>268</td>
+      <td>65</td>
+      <td>3180</td>
+      <td>234</td>
+      <td>238</td>
+      <td>135</td>
+      <td>6121</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+<tr>
+<th>3</th>
+      <td>2785</td>
+      <td>155</td>
+      <td>18</td>
+      <td>242</td>
+      <td>118</td>
+      <td>3090</td>
+      <td>238</td>
+      <td>238</td>
+      <td>122</td>
+      <td>6211</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+<tr>
+<th>4</th>
+      <td>2595</td>
+      <td>45</td>
+      <td>2</td>
+      <td>153</td>
+      <td>-1</td>
+      <td>391</td>
+      <td>220</td>
+      <td>234</td>
+      <td>150</td>
+      <td>6172</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>5</td>
+    </tr>
+</tbody>
+</table>
+<p>5 rows × 55 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[7]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>elevation</th>
+      <th>aspect</th>
+      <th>slope</th>
+      <th>h_dist_hydro</th>
+      <th>v_dist_hydro</th>
+      <th>h_dist_road</th>
+      <th>shade_9am</th>
+      <th>shade_noon</th>
+      <th>shade_3pm</th>
+      <th>h_dist_fire</th>
+      <th>...</th>
+      <th>soil_31</th>
+      <th>soil_32</th>
+      <th>soil_33</th>
+      <th>soil_34</th>
+      <th>soil_35</th>
+      <th>soil_36</th>
+      <th>soil_37</th>
+      <th>soil_38</th>
+      <th>soil_39</th>
+      <th>cover_type</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>count</th>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>...</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+    </tr>
+<tr>
+<th>mean</th>
+      <td>2959.365301</td>
+      <td>155.656807</td>
+      <td>14.103704</td>
+      <td>269.428217</td>
+      <td>46.418855</td>
+      <td>2350.146611</td>
+      <td>212.146049</td>
+      <td>223.318716</td>
+      <td>142.528263</td>
+      <td>1980.291226</td>
+      <td>...</td>
+      <td>0.090392</td>
+      <td>0.077716</td>
+      <td>0.002773</td>
+      <td>0.003255</td>
+      <td>0.000205</td>
+      <td>0.000513</td>
+      <td>0.026803</td>
+      <td>0.023762</td>
+      <td>0.015060</td>
+      <td>2.051471</td>
+    </tr>
+<tr>
+<th>std</th>
+      <td>279.984734</td>
+      <td>111.913721</td>
+      <td>7.488242</td>
+      <td>212.549356</td>
+      <td>58.295232</td>
+      <td>1559.254870</td>
+      <td>26.769889</td>
+      <td>19.768697</td>
+      <td>38.274529</td>
+      <td>1324.195210</td>
+      <td>...</td>
+      <td>0.286743</td>
+      <td>0.267725</td>
+      <td>0.052584</td>
+      <td>0.056957</td>
+      <td>0.014310</td>
+      <td>0.022641</td>
+      <td>0.161508</td>
+      <td>0.152307</td>
+      <td>0.121791</td>
+      <td>1.396504</td>
+    </tr>
+<tr>
+<th>min</th>
+      <td>1859.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>-173.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+<tr>
+<th>25%</th>
+      <td>2809.000000</td>
+      <td>58.000000</td>
+      <td>9.000000</td>
+      <td>108.000000</td>
+      <td>7.000000</td>
+      <td>1106.000000</td>
+      <td>198.000000</td>
+      <td>213.000000</td>
+      <td>119.000000</td>
+      <td>1024.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>1.000000</td>
+    </tr>
+<tr>
+<th>50%</th>
+      <td>2996.000000</td>
+      <td>127.000000</td>
+      <td>13.000000</td>
+      <td>218.000000</td>
+      <td>30.000000</td>
+      <td>1997.000000</td>
+      <td>218.000000</td>
+      <td>226.000000</td>
+      <td>143.000000</td>
+      <td>1710.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+    </tr>
+<tr>
+<th>75%</th>
+      <td>3163.000000</td>
+      <td>260.000000</td>
+      <td>18.000000</td>
+      <td>384.000000</td>
+      <td>69.000000</td>
+      <td>3328.000000</td>
+      <td>231.000000</td>
+      <td>237.000000</td>
+      <td>168.000000</td>
+      <td>2550.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>2.000000</td>
+    </tr>
+<tr>
+<th>max</th>
+      <td>3858.000000</td>
+      <td>360.000000</td>
+      <td>66.000000</td>
+      <td>1397.000000</td>
+      <td>601.000000</td>
+      <td>7117.000000</td>
+      <td>254.000000</td>
+      <td>254.000000</td>
+      <td>254.000000</td>
+      <td>7173.000000</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>7.000000</td>
+    </tr>
+</tbody>
+</table>
+<p>8 rows × 55 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'cover_type'</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># get X and Y</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">7</span><span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>//anaconda/envs/dl/lib/python3.6/site-packages/sklearn/utils/validation.py:429: DataConversionWarning: Data with input dtype int64 was converted to float64 by MinMaxScaler.
+  warnings.warn(msg, _DataConversionWarning)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">Y</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[12]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.36460521,  0.48759922,  0.06153746,  0.00472796,  0.01633873,
+        0.02989095,  0.03530048])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The dataset is highly imbalanced. Arms 0 and 1 make up the vast majority of rewards.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[13]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+<thead><tr style="text-align: right;">
+<th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>44</th>
+      <th>45</th>
+      <th>46</th>
+      <th>47</th>
+      <th>48</th>
+      <th>49</th>
+      <th>50</th>
+      <th>51</th>
+      <th>52</th>
+      <th>53</th>
+    </tr></thead>
+<tbody>
+<tr>
+<th>count</th>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>...</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+      <td>581012.000000</td>
+    </tr>
+<tr>
+<th>mean</th>
+      <td>0.550458</td>
+      <td>0.432380</td>
+      <td>0.213692</td>
+      <td>0.192862</td>
+      <td>0.283487</td>
+      <td>0.330216</td>
+      <td>0.835221</td>
+      <td>0.879208</td>
+      <td>0.561135</td>
+      <td>0.276076</td>
+      <td>...</td>
+      <td>0.044175</td>
+      <td>0.090392</td>
+      <td>0.077716</td>
+      <td>0.002773</td>
+      <td>0.003255</td>
+      <td>0.000205</td>
+      <td>0.000513</td>
+      <td>0.026803</td>
+      <td>0.023762</td>
+      <td>0.015060</td>
+    </tr>
+<tr>
+<th>std</th>
+      <td>0.140062</td>
+      <td>0.310871</td>
+      <td>0.113458</td>
+      <td>0.152147</td>
+      <td>0.075317</td>
+      <td>0.219089</td>
+      <td>0.105393</td>
+      <td>0.077830</td>
+      <td>0.150687</td>
+      <td>0.184608</td>
+      <td>...</td>
+      <td>0.205483</td>
+      <td>0.286743</td>
+      <td>0.267725</td>
+      <td>0.052584</td>
+      <td>0.056957</td>
+      <td>0.014310</td>
+      <td>0.022641</td>
+      <td>0.161508</td>
+      <td>0.152307</td>
+      <td>0.121791</td>
+    </tr>
+<tr>
+<th>min</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+<tr>
+<th>25%</th>
+      <td>0.475238</td>
+      <td>0.161111</td>
+      <td>0.136364</td>
+      <td>0.077309</td>
+      <td>0.232558</td>
+      <td>0.155403</td>
+      <td>0.779528</td>
+      <td>0.838583</td>
+      <td>0.468504</td>
+      <td>0.142758</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+<tr>
+<th>50%</th>
+      <td>0.568784</td>
+      <td>0.352778</td>
+      <td>0.196970</td>
+      <td>0.156049</td>
+      <td>0.262274</td>
+      <td>0.280596</td>
+      <td>0.858268</td>
+      <td>0.889764</td>
+      <td>0.562992</td>
+      <td>0.238394</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+<tr>
+<th>75%</th>
+      <td>0.652326</td>
+      <td>0.722222</td>
+      <td>0.272727</td>
+      <td>0.274875</td>
+      <td>0.312661</td>
+      <td>0.467613</td>
+      <td>0.909449</td>
+      <td>0.933071</td>
+      <td>0.661417</td>
+      <td>0.355500</td>
+      <td>...</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+<tr>
+<th>max</th>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>...</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+      <td>1.000000</td>
+    </tr>
+</tbody>
+</table>
+<p>8 rows × 54 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="The-Neural-Bandit-algorithm">The Neural Bandit algorithm<a class="anchor-link" href="#The-Neural-Bandit-algorithm">¶</a>
+</h3>
+<p>The algorithm that I've implemented is called Neural Bandit. I've implemented 2 iterations, henceforth called Neural Bandit 1 (NB1) and Neural Bandit 2 (NB2)</p>
+<h4 id="Neural-Bandit-1">Neural Bandit 1<a class="anchor-link" href="#Neural-Bandit-1">¶</a>
+</h4>
+<p>This algorithm works by creating a Multilayer Perceptron (MLP) for each arm, then performing epsilon-greedy arm selection. Epsilon-greedy arm selection works by having every arm predict a reward based on an observed context, then choosing the best arm most of the time, with some probability of choosing a random arm. Once an arm has been chosen, play that arm and observe the reward. Perform a training step on the MLP for the arm played, and continue to the next timestep.</p>
+<p>Pseudocode:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+<pre><code>Algorithm 1: Neural Bandit 1
+
+
+initialize a mulitlayer perceptron A_k for each action in action set K
+choose exploration parameter epsilon
+for t = 1, 2, ..., T:
+    observe context x_t 
+    for k in K:
+        predict y_k from x_t using A_k
+    perform a Bernoulli trail with success probability epsilon
+    if success:
+        play arm with the highest predicted reward
+    else
+        play a random arm 
+    perform a training step on the arm played
+
+</code></pre>
+<h4 id="A-note-on-optimization">A note on optimization<a class="anchor-link" href="#A-note-on-optimization">¶</a>
+</h4>
+<p>The authors of Neural Bandit suggest altering the weight update equation for Stochastic Gradient Descent (SGD) by scaling the gradients by a factor $1-\gamma + \frac{\gamma}{K}$, with exploration parameter $\gamma \in (0, 1]$, and number of actions $K$. I implemented their suggestion by altering Keras' built in optimizers, but performance was unstable, so I ended up just using the optimizers as implemented by Keras and TensorFlow</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">keras.optimizers</span> <span class="k">import</span> <span class="n">SGD</span><span class="p">,</span> <span class="n">Adam</span>
+
+
+<span class="k">class</span> <span class="nc">Bandit_SGD</span><span class="p">(</span><span class="n">SGD</span><span class="p">):</span>
+    <span class="sd">"""Stochastic gradient descent optimizer for contextual bandits.</span>
+<span class="sd">    Includes support for momentum,</span>
+<span class="sd">    learning rate decay, and Nesterov momentum.</span>
+<span class="sd">    # Arguments</span>
+<span class="sd">        n_arms: int &gt;0. Number of arms.</span>
+<span class="sd">        explore: float [0., .5] Exploration parameter.</span>
+<span class="sd">        lr: float &gt;= 0. Learning rate.</span>
+<span class="sd">        momentum: float &gt;= 0. Parameter updates momentum.</span>
+<span class="sd">        decay: float &gt;= 0. Learning rate decay over each update.</span>
+<span class="sd">        nesterov: boolean. Whether to apply Nesterov momentum.</span>
+<span class="sd">    """</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_arms</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span> <span class="n">explore</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bandit_SGD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_arms</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'n_arms'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explore</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">explore</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'explore'</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">get_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">loss</span><span class="p">):</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gradients</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_decay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lr</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">decay</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1"># weight scaling for bandits</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">explore</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">explore</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_arms</span>
+        <span class="c1"># momentum</span>
+        <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">get_variable_shape</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+        <span class="n">moments</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">]</span> <span class="o">+</span> <span class="n">moments</span>
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">moments</span><span class="p">):</span>
+            <span class="c1"># apply bandit scaling</span>
+            <span class="n">g</span> <span class="o">=</span>  <span class="n">g</span><span class="o">/</span><span class="n">P</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">*</span> <span class="n">m</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">g</span>  <span class="c1"># velocity</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nesterov</span><span class="p">:</span>
+                <span class="n">new_p</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">momentum</span> <span class="o">*</span> <span class="n">v</span> <span class="o">-</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">g</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_p</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+
+            <span class="c1"># apply constraints</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                <span class="n">new_p</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">new_p</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">new_p</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updates</span>
+    
+<span class="k">class</span> <span class="nc">Bandit_Adam</span><span class="p">(</span><span class="n">Adam</span><span class="p">):</span>
+    <span class="sd">"""Adam optimizer for contextual bandits</span>
+<span class="sd">    Default parameters follow those provided in the original paper.</span>
+<span class="sd">    # Arguments</span>
+<span class="sd">        n_arms: int &gt;0. Number of arms.</span>
+<span class="sd">        explore: float [0., .5] Exploration parameter.</span>
+<span class="sd">        lr: float &gt;= 0. Learning rate.</span>
+<span class="sd">        beta_1: float, 0 &lt; beta &lt; 1. Generally close to 1.</span>
+<span class="sd">        beta_2: float, 0 &lt; beta &lt; 1. Generally close to 1.</span>
+<span class="sd">        epsilon: float &gt;= 0. Fuzz factor.</span>
+<span class="sd">        decay: float &gt;= 0. Learning rate decay over each update.</span>
+<span class="sd">    # References</span>
+<span class="sd">        - [Adam - A Method for Stochastic Optimization](http://arxiv.org/abs/1412.6980v8)</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_arms</span><span class="o">=</span><span class="mf">2.</span><span class="p">,</span> <span class="n">explore</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bandit_Adam</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_arms</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'n_arms'</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explore</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="n">explore</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'explore'</span><span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="nf">get_updates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">constraints</span><span class="p">,</span> <span class="n">loss</span><span class="p">):</span>
+        <span class="n">grads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gradients</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updates</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">update_add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+
+        <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_decay</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lr</span> <span class="o">*=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">decay</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">))</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">lr_t</span> <span class="o">=</span> <span class="n">lr</span> <span class="o">*</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">K</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta_2</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span> <span class="o">/</span>
+                     <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="n">K</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta_1</span><span class="p">,</span> <span class="n">t</span><span class="p">)))</span>
+
+        <span class="n">shapes</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">get_variable_shape</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+        <span class="n">ms</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">]</span>
+        <span class="n">vs</span> <span class="o">=</span> <span class="p">[</span><span class="n">K</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">iterations</span><span class="p">]</span> <span class="o">+</span> <span class="n">ms</span> <span class="o">+</span> <span class="n">vs</span>
+        <span class="c1"># weight scaling for bandits</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">explore</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">loss</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">0.6931471805599453</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">explore</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_arms</span>
+        
+        <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">grads</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">vs</span><span class="p">):</span>
+            <span class="c1"># apply bandit scaling</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">g</span><span class="o">/</span><span class="n">P</span>
+            <span class="n">m_t</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta_1</span> <span class="o">*</span> <span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_1</span><span class="p">)</span> <span class="o">*</span> <span class="n">g</span>
+            <span class="n">v_t</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">beta_2</span> <span class="o">*</span> <span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta_2</span><span class="p">)</span> <span class="o">*</span> <span class="n">K</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+            <span class="n">p_t</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">lr_t</span> <span class="o">*</span> <span class="n">m_t</span> <span class="o">/</span> <span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">v_t</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">m_t</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v_t</span><span class="p">))</span>
+
+            <span class="n">new_p</span> <span class="o">=</span> <span class="n">p_t</span>
+            <span class="c1"># apply constraints</span>
+            <span class="k">if</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">constraints</span><span class="p">:</span>
+                <span class="n">c</span> <span class="o">=</span> <span class="n">constraints</span><span class="p">[</span><span class="n">p</span><span class="p">]</span>
+                <span class="n">new_p</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">new_p</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">K</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">new_p</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">updates</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Building-NB1">Building NB1<a class="anchor-link" href="#Building-NB1">¶</a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># mlp factory</span>
+
+<span class="k">def</span> <span class="nf">build_experts</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_layers</span><span class="p">):</span>
+    <span class="c1"># builds a committee of experts</span>
+    <span class="k">def</span> <span class="nf">build_expert</span><span class="p">():</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+        <span class="c1"># add hidden layers</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">):</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_hidden</span><span class="p">,</span>
+                            <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">'glorot_uniform'</span><span class="p">,</span>
+                            <span class="n">activation</span><span class="o">=</span><span class="s1">'relu'</span><span class="p">,</span>
+                            <span class="n">input_dim</span><span class="o">=</span><span class="n">input_shape</span><span class="p">,</span>
+                            <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)))</span>
+        <span class="c1"># output layer</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">'glorot_normal'</span><span class="p">,</span>
+                        <span class="n">activation</span><span class="o">=</span><span class="s1">'sigmoid'</span><span class="p">,</span>
+                        <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">regularizers</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">model</span>
+    <span class="n">experts</span> <span class="o">=</span> <span class="p">[</span><span class="n">build_expert</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">experts</span>
+
+<span class="n">experts</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">experts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+dense_1 (Dense)              (None, 32)                1760      
+_________________________________________________________________
+dense_2 (Dense)              (None, 1)                 33        
+=================================================================
+Total params: 1,793.0
+Trainable params: 1,793
+Non-trainable params: 0.0
+_________________________________________________________________
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">compile_experts</span><span class="p">(</span><span class="n">experts</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="c1"># compiles a commitee of experts</span>
+    <span class="n">n_arms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">experts</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">compile_expert</span><span class="p">(</span><span class="n">expert</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">expert</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">,</span>
+                      <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">expert</span>
+    <span class="n">compiled_experts</span> <span class="o">=</span> <span class="p">[</span><span class="n">compile_expert</span><span class="p">(</span><span class="n">expert</span><span class="p">)</span> <span class="k">for</span> <span class="n">expert</span> <span class="ow">in</span> <span class="n">experts</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">compiled_experts</span>
+
+<span class="c1"># test it out</span>
+<span class="n">experts</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">experts</span><span class="p">,</span> <span class="s1">'adam'</span><span class="p">,</span> <span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">explore</span><span class="o">=.</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">experts</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&lt;keras.models.Sequential at 0x11440a5f8&gt;,
+ &lt;keras.models.Sequential at 0x10280e5f8&gt;,
+ &lt;keras.models.Sequential at 0x115553b00&gt;,
+ &lt;keras.models.Sequential at 0x1155ad4a8&gt;]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># chooses an arm as in Algorithm 1</span>
+<span class="k">def</span> <span class="nf">choose_arm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">experts</span><span class="p">,</span> <span class="n">explore</span><span class="p">):</span>
+    <span class="n">n_arms</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">experts</span><span class="p">)</span>
+    <span class="c1"># make predictions</span>
+    <span class="n">preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">expert</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">expert</span> <span class="ow">in</span> <span class="n">experts</span><span class="p">]</span>
+    <span class="c1"># get best arm</span>
+    <span class="n">arm_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanargmax</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+    <span class="c1"># create arm selection probabilities</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="o">-</span><span class="n">explore</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">arm</span><span class="o">==</span><span class="n">arm_max</span><span class="p">)</span> <span class="o">+</span> <span class="n">explore</span><span class="o">/</span><span class="n">n_arms</span> <span class="k">for</span> <span class="n">arm</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_arms</span><span class="p">)]</span>
+    <span class="c1"># select an arm</span>
+    <span class="n">chosen_arm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_arms</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">P</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">preds</span><span class="p">[</span><span class="n">chosen_arm</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">chosen_arm</span><span class="p">,</span> <span class="n">pred</span>
+
+<span class="c1"># quick test</span>
+<span class="n">starting_arms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">([</span><span class="n">choose_arm</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))]],</span> <span class="n">experts</span><span class="p">,</span> <span class="n">explore</span><span class="o">=.</span><span class="mi">5</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)])</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">starting_arms</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">starting_arms</span><span class="o">.</span><span class="n">values</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0AGGy17oCqelaSjyd5eZL/TvJn3f3DTQ8GwLKV9B8neU53/0GSv0zykc2OBMBlSyL96iRfS5Lu/m6S%0AV250IgCedubw8PCGB1TVJ5J8vru/evT6p0l+p7svncB8ALe1JSvpJ5LsXPkzAg1wMpZE+jtJ3pQk%0AVXVnkn/b6EQAPG3t0x1Jvpjk9VX1T0nOJLl7syMBcNnae9IAbI/NLACDiTTAYCINMNiSDw5ve7bG%0An25VdS7Jw0nuSPLsJB/s7q9sdSgWqaqzSR5KUkkOk9zb3d/b7lQny0p6GVvjT7d3JXm8u1+T5A1J%0APrbleVjuzUnS3a9K8kCSD213nJMn0svYGn+6fTbJg0ffn0liM9Yp0d1fSvLeo5cvTvLzLY6zFW53%0ALPPcJP91xetfVtXKzsvTobufTJKq2knyufxmRcYp0d2XqupTSd6S5G3bnuekWUkvY2v8KVdVL0ry%0Aj0k+092Pbnsebk53vzvJS5M8VFW/te15TpJIL2Nr/ClWVc9P8liS93f3w9ueh+Wq6q6quv/o5cUk%0Avzr6um3YcbjAFU93/F6OtsZ39/e3OxVLVdVHk/xJkiuv2Ru7+6ktjcRCR6vmR5L8dpJzST7c3V/e%0A7lQnS6QBBnO7A2AwkQYYTKQBBhNpgMFEGmAwkQYYTKQBBvs1eceB54lYX48AAAAASUVORK5CYII=">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Running-the-model">Running the model<a class="anchor-link" href="#Running-the-model">¶</a>
+</h3>
+<p>I ran the models on the full dataset using a p2.xlarge GPU instance on AWS. These runs are from my local machine to show that the code works.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">run_bandit_1</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">explore</span><span class="p">,</span> <span class="n">exp_annealing_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_explore</span><span class="o">=.</span><span class="mi">005</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">n_arms</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">input_shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">experts</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">experts</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">experts</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="c1"># trace for arm choices</span>
+    <span class="n">chosen_arms</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># trace for regrets</span>
+    <span class="n">regrets</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">true_rewards</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">message_iteration</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'Starting bandit</span><span class="se">\n</span><span class="s1">----------</span><span class="se">\n</span><span class="s1">N_arms: </span><span class="si">{n_arms}</span><span class="se">\n</span><span class="s1">----------</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">X</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">chosen_arm</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">choose_arm</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">experts</span><span class="p">,</span> <span class="n">explore</span><span class="p">)</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">chosen_arm</span><span class="p">]</span>
+        <span class="n">max_reward</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">max_arm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">true_rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_arm</span><span class="p">)</span>
+        <span class="n">expert</span> <span class="o">=</span> <span class="n">experts</span><span class="p">[</span><span class="n">chosen_arm</span><span class="p">]</span>
+        <span class="n">expert</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">experts</span><span class="p">[</span><span class="n">chosen_arm</span><span class="p">]</span> <span class="o">=</span> <span class="n">expert</span>
+        <span class="n">chosen_arms</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chosen_arm</span><span class="p">)</span>
+        <span class="n">regret</span> <span class="o">=</span> <span class="n">max_reward</span> <span class="o">-</span> <span class="n">reward</span>
+        <span class="n">regrets</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">regret</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">explore</span> <span class="o">&gt;</span> <span class="n">min_explore</span><span class="p">:</span>
+            <span class="n">explore</span> <span class="o">*=</span> <span class="n">exp_annealing_rate</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">message_iteration</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">message_iteration</span> <span class="o">&lt;=</span> <span class="mf">1e4</span><span class="p">:</span>
+                <span class="n">message_iteration</span> <span class="o">*=</span> <span class="mi">10</span>
+            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+            <span class="n">remaining</span> <span class="o">=</span> <span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">elapsed</span><span class="o">/</span><span class="n">i</span> <span class="o">-</span> <span class="n">elapsed</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'''Completed iteration: </span><span class="si">{i}</span><span class="s1"></span>
+<span class="s1">            Elapsed time: </span><span class="si">{elapsed:.2f}</span><span class="s1"> seconds</span>
+<span class="s1">            Estimated time remaining: </span><span class="si">{remaining:.2f}</span><span class="s1"> minutes</span>
+<span class="s1">            --------------------'''</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'Finished in: </span><span class="si">{elapsed:.2f}</span><span class="s1"> minutes'</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">experts</span><span class="p">,</span> <span class="n">chosen_arms</span><span class="p">,</span> <span class="n">true_rewards</span><span class="p">,</span> <span class="n">regrets</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># sample run</span>
+<span class="n">n_points</span> <span class="o">=</span> <span class="mi">100</span>
+
+<span class="n">fit_models_1</span><span class="p">,</span> <span class="n">arm_hist_1</span><span class="p">,</span> <span class="n">true_reward_hist_1</span><span class="p">,</span> <span class="n">regret_hist_1</span> <span class="o">=</span> <span class="n">run_bandit_1</span><span class="p">(</span><span class="n">X</span><span class="p">[:</span><span class="n">n_points</span><span class="p">],</span> <span class="n">Y</span><span class="p">[:</span><span class="n">n_points</span><span class="p">],</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">explore</span><span class="o">=.</span><span class="mi">005</span><span class="p">,</span> <span class="n">exp_annealing_rate</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">clipnorm</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Starting bandit
+----------
+N_arms: 7
+----------
+
+Completed iteration: 10
+            Elapsed time: 6.69 seconds
+            Estimated time remaining: 1.00 minutes
+            --------------------
+Finished in: 0.16 minutes
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">regret_hist_1</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'cumulative regret'</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'$t$'</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'regret'</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># true best arms</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">true_reward_hist_1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1    50
+0    34
+2     8
+5     4
+6     3
+4     1
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># chosen arms</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">arm_hist_1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1    33
+3    21
+5    16
+0    15
+4    11
+2     4
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">arm_hist_1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">arm_hist_1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'chosen arm distribution'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'count'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'arm'</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">true_reward_hist_1</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">value_counts</span><span class="p">(</span><span class="n">true_reward_hist_1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'true reward distribution'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'reward'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'arm'</span><span class="p">);</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A/wvXI8V7QCdLsAAAAABJRU5ErkJggg==">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Neural-Bandit-2">Neural Bandit 2<a class="anchor-link" href="#Neural-Bandit-2">¶</a>
+</h3>
+<p>NB2 is an extension of NB1. Neural networks have a large number of hyperparameters, from architecture to choice of optimization algorthim to regularization. In the contextual bandit problem, however, it's not possible to grid search, since decisions must be made online and consequently only one pass through the dataset is allowed. Hyperparameter selection is instead handled by the Exp3 algorithm, which stands for "Exponential-weight algorithm for Exploration and Exploitation". This is a general algorithm for adversarial bandits. A weight vector is maintained witha weight for each action. Actions are chosen probabilistically based on the weights, with larger weighted actions having a higher probability of being chosen. There is also an exploration parameter, which determines how random the action chioce is.</p>
+<p>With weights initialized to $w_i = 1$ for $i = 1, ..., K$, and exploration parameter $\gamma \in (0, 1]$, the probability of playing action $i$ at timestep $t$ is</p>
+<p>(1)
+$$p_{i, t} = (1-\gamma)\frac{w_{i, t}}{\sum^K_{j=1}w_{j, t}}+\frac{\gamma}{K} $$</p>
+<p>After action $i$ is played and reward $r_i$ is revealed, the weight of arm $i$ is updated to:</p>
+<p>(2)
+$$w_{i, t+1} = w_{i, t}\exp{\left(\frac{\gamma r_i}{p_{i, t}K}\right)} $$</p>
+<p>This is adapted for Neural Bandit by instantiating some number of models according to NB1, varying architectures and hyperparameters, maintaining a weight vector for these models, and choosing a model to play at each timestep $t$. The arm is then chosen as in NB1 and a reward observed. <em>Each model</em> then performs a training step for the chosen arm with context $x_t$ and reward $r_{i, t}$. This way multiple models are trained online and the best model is asked to pick the arm more often as Exp3 weights evolve.</p>
+<p>Pseudocode:</p>
+
+<pre><code>Algorithm 2: Neural Bandit 2
+
+choose exploration parameter gamma
+create M models
+initialize M Neural Bandit 1
+initialize Exp3 weight vector to all ones
+for t in 1, 2, ..., T:
+    observe context x_t
+    draw m_t from P_model as in equation (1)
+    model m_t chooses action k_t
+    reveal reward r_kt
+    perform a training step for action k_t for each model
+    update the Exp3 weight for m_t as in equation (2)</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># neural bandit 2</span>
+
+<span class="c1"># get shapes and number of arms</span>
+<span class="n">n</span><span class="p">,</span> <span class="n">n_arms</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">input_shape</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># init models</span>
+<span class="c1"># 32 hidden units, 1 hidden layer, explore = .005</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_1</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_1</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+<span class="c1"># 64 hidden units, 1 hidden layer, explore = .005</span>
+<span class="n">model_2</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_2</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_2</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+<span class="c1"># 128 hidden units, 1 hidden layer, explore = .005</span>
+<span class="n">model_3</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_3</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_3</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+
+<span class="c1"># 64 hidden units, 2 hidden layers, explore = .005</span>
+<span class="n">model_4</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model_4</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_4</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+
+<span class="c1"># 64 hidden units, 2 hidden layers, explore = .005</span>
+<span class="n">model_5</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model_5</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_5</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+
+<span class="c1"># 32 hidden units, 1 hidden layer, annealing_explore</span>
+<span class="n">model_6</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_6</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_6</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+<span class="c1"># 64 hidden units, 1 hidden layer, annealing_explore</span>
+<span class="n">model_7</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_7</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_7</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+<span class="c1"># 128 hidden units, 1 hidden layer, annealing_explore</span>
+<span class="n">model_8</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">model_8</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_8</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+
+<span class="c1"># 64 hidden units, 2 hidden layers, annealing_explore</span>
+<span class="n">model_9</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model_9</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_9</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+
+
+<span class="c1"># 64 hidden units, 2 hidden layers, annealing_explore</span>
+<span class="n">model_10</span> <span class="o">=</span> <span class="n">build_experts</span><span class="p">(</span><span class="n">n_arms</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">,</span> <span class="n">n_hidden</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">model_10</span> <span class="o">=</span> <span class="n">compile_experts</span><span class="p">(</span><span class="n">model_10</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'binary_crossentropy'</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">'adam'</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># set n_steps and model exploration parameter</span>
+<span class="n">n_steps</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">gamma_model</span><span class="o">=.</span><span class="mi">1</span>
+
+<span class="c1"># collect models, only 4 in the interest of time</span>
+<span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">model_2</span><span class="p">,</span> <span class="n">model_4</span><span class="p">,</span> <span class="n">model_7</span><span class="p">,</span> <span class="n">model_9</span><span class="p">]</span>
+<span class="n">n_models</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+<span class="c1"># init weight vector</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n_models</span><span class="p">)</span>
+<span class="c1"># init model explore parameters</span>
+<span class="n">explores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">005</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">anneal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">False</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="p">[</span><span class="kc">True</span><span class="p">]</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">annealing_rate</span> <span class="o">=</span> <span class="o">.</span><span class="mi">99995</span>
+<span class="n">min_explore</span> <span class="o">=</span> <span class="o">.</span><span class="mi">005</span>
+
+<span class="k">def</span> <span class="nf">get_model_probabilities</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gamma_model</span><span class="p">):</span>
+    <span class="c1"># get probabilites of choosing each model</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="o">-</span><span class="n">gamma_model</span><span class="p">)</span><span class="o">*</span><span class="n">weight</span><span class="o">/</span><span class="nb">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span> <span class="o">+</span> <span class="n">gamma_model</span><span class="o">/</span><span class="n">n_models</span> <span class="k">for</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">weights</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">p</span>
+
+<span class="k">def</span> <span class="nf">choose_model</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gamma_model</span><span class="p">,</span> <span class="n">model_probabilities</span><span class="p">):</span>
+    <span class="c1"># choose a model based on weights</span>
+    <span class="n">n_models</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_models</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">model_probabilities</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+<span class="c1"># init histories</span>
+<span class="n">arm_hist_2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">model_hist_2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">regret_hist_2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">weight_hist_2</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># init timing vars</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">next_check</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># train the models</span>
+<span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+    <span class="c1"># store weights</span>
+    <span class="n">weight_hist_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="c1"># get probs and choose a model</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">get_model_probabilities</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gamma_model</span><span class="p">)</span>
+    <span class="n">chosen_model</span> <span class="o">=</span> <span class="n">choose_model</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">gamma_model</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="c1"># store model choice</span>
+    <span class="n">model_hist_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chosen_model</span><span class="p">)</span>
+    <span class="c1"># get a random data point</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">X</span><span class="p">[[</span><span class="n">i</span><span class="p">]]</span>
+    <span class="c1"># choose an arm</span>
+    <span class="n">chosen_arm</span><span class="p">,</span> <span class="n">pred</span> <span class="o">=</span> <span class="n">choose_arm</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">models</span><span class="p">[</span><span class="n">chosen_model</span><span class="p">],</span> <span class="n">explores</span><span class="p">[</span><span class="n">chosen_model</span><span class="p">])</span>
+    <span class="c1"># store arm selection</span>
+    <span class="n">arm_hist_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chosen_arm</span><span class="p">)</span>
+    <span class="c1"># observe reward and max reward</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">chosen_arm</span><span class="p">]</span>
+    <span class="n">max_reward</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="c1"># calculate and store regret</span>
+    <span class="n">regret</span> <span class="o">=</span> <span class="n">max_reward</span> <span class="o">-</span> <span class="n">reward</span>
+    <span class="n">regret_hist_2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">regret</span><span class="p">)</span>
+    <span class="c1"># update the chosen arm for each model</span>
+    <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+        <span class="n">expert</span> <span class="o">=</span> <span class="n">model</span><span class="p">[</span><span class="n">chosen_arm</span><span class="p">]</span>
+        <span class="n">expert</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">model</span><span class="p">[</span><span class="n">chosen_arm</span><span class="p">]</span> <span class="o">=</span> <span class="n">expert</span>
+        <span class="c1"># anneal explore param if necessary</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">anneal</span><span class="p">[</span><span class="n">m</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">explores</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">min_explore</span><span class="p">):</span>
+            <span class="n">explores</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">*=</span> <span class="n">annealing_rate</span>
+    <span class="c1"># update weights</span>
+    <span class="n">weights</span><span class="p">[</span><span class="n">chosen_model</span><span class="p">]</span> <span class="o">=</span> <span class="n">weights</span><span class="p">[</span><span class="n">chosen_model</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">gamma_model</span><span class="o">*</span><span class="n">reward</span><span class="o">/</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">chosen_model</span><span class="p">]</span><span class="o">*</span><span class="n">n_models</span><span class="p">)))</span>
+    <span class="c1"># print progress</span>
+    <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="n">next_check</span><span class="p">:</span>
+        <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="s1">'Step </span><span class="si">{step}</span><span class="s1"> complete in </span><span class="si">{elapsed}</span><span class="s1"> seconds.'</span><span class="p">)</span>
+        <span class="n">next_check</span> <span class="o">*=</span> <span class="mi">2</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Step 1 complete in 23.778280019760132 seconds.
+Step 2 complete in 23.80380392074585 seconds.
+Step 4 complete in 34.6318678855896 seconds.
+Step 8 complete in 53.786434173583984 seconds.
+Step 16 complete in 62.28660321235657 seconds.
+Step 32 complete in 68.92496013641357 seconds.
+Step 64 complete in 69.78483510017395 seconds.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="TensorFlow-implementation-and-multi-task-learning">TensorFlow implementation and multi-task learning<a class="anchor-link" href="#TensorFlow-implementation-and-multi-task-learning">¶</a>
+</h3>
+<p>I had an idea for NB1 models to have a shared layer before branching for each arm, with the idea that updating shared weights would allow the other arms to learn even when they aren't chosen and therefore do not observe a context and reward. This shared layer is refered to as Multi-task learning. It was necessary to implement this in TensorFlow, and the results are somewhat promising, but I have not yet integrated this NB1 architecture into NB2. That would be a logical extension of this project.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># TensorFlow version of Neural Bandit 1</span>
+
+<span class="n">N_EXPERTS</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">N_FEATURES</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">N_HIDDEN</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">MAX_STEPS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">START_EXPLORE</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">005</span><span class="p">])</span>
+
+<span class="n">graph2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">graph2</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+    
+    <span class="c1"># placeholders for inputs, rewards</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                             <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">N_FEATURES</span><span class="p">],</span>
+                             <span class="n">name</span><span class="o">=</span><span class="s1">'context'</span><span class="p">)</span>
+    <span class="n">reward</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                            <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">N_EXPERTS</span><span class="p">],</span>
+                            <span class="n">name</span><span class="o">=</span><span class="s1">'reward'</span><span class="p">)</span>
+    
+    <span class="c1"># setting the exploration parameter and annealing rate</span>
+    <span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'global_step'</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    <span class="n">start_explore</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                          <span class="n">name</span><span class="o">=</span><span class="s1">'explore'</span><span class="p">,</span>
+                          <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                          <span class="n">value</span><span class="o">=</span><span class="n">START_EXPLORE</span><span class="p">)</span>
+    <span class="n">min_explore</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="o">.</span><span class="mi">005</span><span class="p">],</span>
+                              <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                              <span class="n">name</span><span class="o">=</span><span class="s1">'min_explore'</span><span class="p">)</span>
+    
+    <span class="n">explore_anneal</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">([</span><span class="o">.</span><span class="mi">99995</span><span class="p">],</span>
+                                 <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                                 <span class="n">name</span><span class="o">=</span><span class="s1">'explore_annealing_rate'</span><span class="p">)</span>
+    
+    <span class="n">explore</span> <span class="o">=</span> <span class="n">start_explore</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">explore_anneal</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">to_float</span><span class="p">(</span><span class="n">global_step</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="n">explore</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">explore</span><span class="p">,</span> <span class="n">min_explore</span><span class="p">)</span>
+    
+    
+    <span class="c1"># initializing regret</span>
+    <span class="n">cum_regret</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'regret'</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    
+    
+    <span class="k">def</span> <span class="nf">build_arm_network</span><span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">):</span>
+        <span class="n">W1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">n_hidden</span><span class="p">,</span> <span class="n">n_hidden</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">'W1'</span><span class="p">,)</span>
+        <span class="n">B1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">n_hidden</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                        <span class="n">name</span><span class="o">=</span><span class="s1">'B1'</span><span class="p">)</span>
+        <span class="n">W2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">n_hidden</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                         <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">'W2'</span><span class="p">)</span>
+        <span class="n">B2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="mi">1</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                         <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                         <span class="n">name</span><span class="o">=</span><span class="s1">'B2'</span><span class="p">)</span>
+        <span class="n">h1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">activations</span><span class="p">,</span> <span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">B1</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span>
+        <span class="n">h2</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">W2</span><span class="p">)</span> <span class="o">+</span> <span class="n">B2</span>
+        <span class="k">return</span> <span class="n">h2</span>
+    
+    <span class="k">def</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">y_hat</span><span class="p">):</span>
+        <span class="n">cross_entropy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid_cross_entropy_with_logits</span><span class="p">(</span><span class="n">labels</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                                                            <span class="n">logits</span><span class="o">=</span><span class="n">y_hat</span><span class="p">,</span>
+                                                            <span class="n">name</span><span class="o">=</span><span class="s1">'xentropy'</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">cross_entropy</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'xentropy_mean'</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span>
+    
+    <span class="c1"># dense layer variables</span>
+    <span class="n">W_shared</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">N_FEATURES</span><span class="p">,</span> <span class="n">N_HIDDEN</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                           <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">'shared_weights'</span><span class="p">,)</span>
+
+    <span class="n">B_shared</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal</span><span class="p">([</span><span class="n">N_HIDDEN</span><span class="p">],</span> <span class="n">stddev</span><span class="o">=.</span><span class="mi">1</span><span class="p">),</span>
+                           <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                           <span class="n">name</span><span class="o">=</span><span class="s1">'shared_biases'</span><span class="p">)</span>
+    
+    <span class="n">h_shared</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">W_shared</span><span class="p">)</span> <span class="o">+</span> <span class="n">B_shared</span>
+    <span class="n">a_shared</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h_shared</span><span class="p">)</span>
+    
+    <span class="n">y_hats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_EXPERTS</span><span class="p">):</span>
+        
+        <span class="c1"># arm networks</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">'arm_'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">exp</span><span class="p">)):</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">build_arm_network</span><span class="p">(</span><span class="n">a_shared</span><span class="p">,</span> <span class="n">N_HIDDEN</span><span class="p">)</span>
+            <span class="n">y_hat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">'y_hat'</span><span class="p">)</span>
+            <span class="n">y_hats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_hat</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="n">begin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">exp</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">y_hat</span><span class="p">)</span>
+
+            <span class="c1"># track losses</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s1">'loss'</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+        
+        
+    <span class="c1"># aggregate predictions for epsilon greedy</span>
+    <span class="n">y_hats</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">y_hats</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    
+    <span class="c1"># epsilon greedy arm choice</span>
+    <span class="n">best_arm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">arg_max</span><span class="p">(</span><span class="n">y_hats</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">best_arm_probs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">explore</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">explore</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">best_arm_draw</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">best_arm_probs</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">best_arm_fn</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">best_arm</span>
+    
+    <span class="k">def</span> <span class="nf">random_arm</span><span class="p">():</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_EXPERTS</span><span class="p">])</span>
+        <span class="n">logs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multinomial</span><span class="p">(</span><span class="n">logs</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="n">chosen_arm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">best_arm_draw</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">best_arm_draw</span><span class="p">)),</span> <span class="c1"># condition</span>
+                                  <span class="n">best_arm_fn</span><span class="p">,</span> <span class="c1"># if True</span>
+                                  <span class="n">random_arm</span><span class="p">)</span> <span class="c1"># if False</span>
+    
+    <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="s1">'chosen_arms'</span><span class="p">,</span> <span class="n">chosen_arm</span><span class="p">)</span>
+    
+    <span class="c1"># track regret</span>
+    <span class="n">true_best_arm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">arg_max</span><span class="p">(</span><span class="n">reward</span><span class="p">,</span> <span class="n">dimension</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">regret</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">equal</span><span class="p">(</span><span class="n">chosen_arm</span><span class="p">,</span> <span class="n">true_best_arm</span><span class="p">))</span>
+    <span class="n">cum_regret</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">cum_regret</span><span class="p">,</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">to_int32</span><span class="p">(</span><span class="n">regret</span><span class="p">),</span> <span class="n">cum_regret</span><span class="p">)))</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">scalar</span><span class="p">(</span><span class="s1">'cumulative_regret'</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">cum_regret</span><span class="p">))</span>
+    
+    
+    <span class="c1"># create optimizers and training ops for each arm</span>
+    <span class="n">update_ops</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_collection</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">GraphKeys</span><span class="o">.</span><span class="n">UPDATE_OPS</span><span class="p">)</span>
+    <span class="n">update_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cum_regret</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">control_dependencies</span><span class="p">(</span><span class="n">update_ops</span><span class="p">):</span>
+        <span class="n">optimizers</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_EXPERTS</span><span class="p">)]</span>
+        
+        <span class="n">train_ops</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_EXPERTS</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">'arm'</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">exp</span><span class="p">)):</span>
+                <span class="n">train_ops</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">optimizers</span><span class="p">[</span><span class="n">exp</span><span class="p">]</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">global_step</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">train_op</span><span class="p">(</span><span class="n">arm</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">train_ops</span><span class="p">[</span><span class="n">arm</span><span class="p">]</span>
+    
+    <span class="c1"># tensorboard logs</span>
+    <span class="n">merged</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">merge_all</span><span class="p">()</span>
+    <span class="n">writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">FileWriter</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph2</span><span class="p">,</span> <span class="n">logdir</span><span class="o">=</span><span class="s1">'./neural_bandit_1'</span><span class="p">)</span>
+
+    
+    <span class="n">init_op</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In [28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph2</span><span class="p">)</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init_op</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">context</span><span class="p">:</span> <span class="n">X</span><span class="p">[[</span><span class="n">i</span><span class="p">]],</span> <span class="n">reward</span><span class="p">:</span> <span class="n">Y</span><span class="p">[[</span><span class="n">i</span><span class="p">]]}</span>
+        <span class="n">chosen_arm_</span><span class="p">,</span> <span class="n">y_hats_</span><span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">chosen_arm</span><span class="p">,</span> <span class="n">y_hats</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">summary</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">regret_</span><span class="p">,</span> <span class="n">explore_</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">merged</span><span class="p">,</span> <span class="n">train_op</span><span class="p">(</span><span class="n">chosen_arm_</span><span class="p">),</span> <span class="n">cum_regret</span><span class="p">,</span> <span class="n">explore</span><span class="p">],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">summary</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'at step </span><span class="si">{}</span><span class="s1">, regret was </span><span class="si">{}</span><span class="s1"> and explore was </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">regret_</span><span class="p">,</span> <span class="n">explore_</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">train_op</span><span class="p">(</span><span class="n">chosen_arm_</span><span class="p">)],</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+<div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>at step 0, regret was [0] and explore was [ 0.005]
+at step 100, regret was [92] and explore was [ 0.005]
+at step 200, regret was [184] and explore was [ 0.005]
+at step 300, regret was [270] and explore was [ 0.005]
+at step 400, regret was [368] and explore was [ 0.005]
+at step 500, regret was [467] and explore was [ 0.005]
+at step 600, regret was [561] and explore was [ 0.005]
+at step 700, regret was [661] and explore was [ 0.005]
+at step 800, regret was [758] and explore was [ 0.005]
+at step 900, regret was [858] and explore was [ 0.005]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Experimental-Results">Experimental Results<a class="anchor-link" href="#Experimental-Results">¶</a>
+</h3>
+<p>Again, I fit the models using AWS GPU instances configured with the BitFusion Ubuntu 14 AMI. NB1 with a shared layer achieved an average regret of .409 per timestep over 100,000 timesteps, diminishing to .318 after 2 million. NB2 with 4 models, each varying the number of hidden units and number of hidden layers, acheived an average regret of .385 per timestep after 100,000 timesteps. Random arm choice gives an average regret of .857. There are numerical stability issues with the Exp3 algorithm, as weights have a tendency to overflow, limiting the number of timesteps that can be run. Dividing the weights by the lowest weight at set intervals can constrain the weights somewhat, but if the difference in performance between the best and worst model is too large the weights still run into overflow. See the regret trajectories below.</p>
+<p><img src="nb2_chosen_arms.png" alt="alt text"></p>
+<p><img src="true_rewards.png" alt="alt text"></p>
+<p><img src="nb2_regret.png" alt="alt text"></p>
+<h3 id="Further-research">Further research<a class="anchor-link" href="#Further-research">¶</a>
+</h3>
+<p>Shared layers should be incorporated into NB2 models. The authors of Neural Bandit also suggest Neural Bandit 3, in which a separate Exp3 instance is maintained for each arm. NB3 was theorized to be more robust to nonstationarity. Variants of Exp3 should be tried as well, and there are many.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="References">References<a class="anchor-link" href="#References">¶</a>
+</h3>
+<ul>
+<li>
+<p>Auer, Peter, et al. "The nonstochastic multiarmed bandit problem." SIAM journal on computing 32.1 (2002): 48-77.</p>
+</li>
+<li>
+<p><a href="https://jeremykun.com/2013/11/08/adversarial-bandits-and-the-exp3-algorithm/">https://jeremykun.com/2013/11/08/adversarial-bandits-and-the-exp3-algorithm/</a></p>
+</li>
+<li>
+<p>Allesiardo, Robin, Raphaël Féraud, and Djallel Bouneffouf. "A neural networks committee for the contextual bandit problem." International Conference on Neural Information Processing. Springer International Publishing, 2014.</p>
+</li>
+<li>
+<p>Caruana, Rich. "Multitask learning." Learning to learn. Springer US, 1998. 95-133.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+    </div>
+  </div>
+
+    </div>
+    <aside class="postpromonav"><nav><ul class="pager hidden-print">
+<li class="previous">
+                <a href="../modeling-customer-behavior-with-markov-chains/" rel="prev" title="Modeling Customer Behavior with Markov Chains">Previous post</a>
+            </li>
+        </ul></nav></aside><section class="comments hidden-print"><h2>Comments</h2>
+        
+        
+        <div id="disqus_thread"></div>
+        <script>
+        var disqus_shortname ="charlesfranzen",
+            disqus_url="http://charlesfranzen.com/posts/neural-networks-for-contextual-multi-armed-bandits/",
+        disqus_title="Neural Networks for Contextual Multi-armed Bandits",
+        disqus_identifier="cache/posts/neural-networks-for-contextual-multi-armed-bandits.html",
+        disqus_config = function () {
+            this.language = "en";
+        };
+        (function() {
+            var dsq = document.createElement('script'); dsq.async = true;
+            dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script><noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a>
+</noscript>
+    <a href="https://disqus.com" class="dsq-brlink" rel="nofollow">Comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        </section><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script><script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+    },
+    displayAlign: 'center', // Change this to 'center' to center equations.
+    "HTML-CSS": {
+        styles: {'.MathJax_Display': {"margin": 0}}
+    }
+});
+</script>
+# 
+
+</article><script>var disqus_shortname="charlesfranzen";(function(){var a=document.createElement("script");a.async=true;a.src="https://"+disqus_shortname+".disqus.com/count.js";(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(a)}());</script>
+</div>
+        <!--End of body content-->
+
+        <footer id="footer">
+            Contents © 2017         <a href="mailto:chip.franzen@gmail.com">Charles Franzen</a> - Powered by         <a href="https://getnikola.com" rel="nofollow">Nikola</a>         
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="Creative Commons License
+style=" border-width:0 src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png"></a>
+<br>This work by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Charles Franzen</span> is licensed under a
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+</a>.
+            
+        </footer>
+</div>
+</div>
+
+
+            <script src="../../assets/js/all-nocdn.js"></script><script>$('a.image-reference:not(.islink) img:not(.islink)').parent().colorbox({rel:"gal",maxWidth:"100%",maxHeight:"100%",scalePhotos:true});</script><!-- fancy dates --><script>
+    moment.locale("en");
+    fancydates(0, "YYYY-MM-DD HH:mm");
+    </script><!-- end fancy dates -->
+</body>
+</html>
